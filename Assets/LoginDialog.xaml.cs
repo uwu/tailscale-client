@@ -106,6 +106,8 @@ public sealed partial class LoginDialog : Page
             {
                 LoginContent.Visibility = Visibility.Collapsed;
                 PreLoginContent.Visibility = Visibility.Visible;
+                _dialog.Title = "Login to Tailscale";
+                _dialog.PrimaryButtonText = "Login";
                 Set("");
             });
         });

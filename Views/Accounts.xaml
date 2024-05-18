@@ -22,7 +22,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <ToggleSwitch IsOn="{x:Bind ConnectionToggle, Mode=OneWay}" Margin="6,0,0,0" Toggled="ConnectionToggled" OnContent="Connected to Tailscale." OffContent="Disconnected from Tailscale." />
+            <ToggleSwitch IsOn="{x:Bind ConnectionToggle, Mode=TwoWay}" x:Name="ConnectionSwitch" Margin="6,0,0,0" Toggled="ConnectionToggled" OnContent="Connected to Tailscale." OffContent="Disconnected from Tailscale." />
             <Button Grid.Column="1" Click="AddProfile">Add new profile</Button>
         </Grid>
         

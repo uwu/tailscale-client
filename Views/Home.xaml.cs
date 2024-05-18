@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using TailscaleClient.Core;
 
 namespace TailscaleClient.Views;
 
@@ -54,6 +55,12 @@ public sealed partial class Home : Page, INotifyPropertyChanged
 
     private void UpdateUI()
     {
+        _status = API.GetStatus();
+        _profile = API.GetCurrentUser();
+
+        MyDevice.Children.Clear();
+        OtherDevices.Children.Clear();
+
         UserID = _status.Self.UserID.ToString();
         UserName = _profile.UserProfile.DisplayName;
         var pfp = _profile.UserProfile.ProfilePicURL;
@@ -86,6 +93,8 @@ public sealed partial class Home : Page, INotifyPropertyChanged
             return;
         }
 
+        AmIConnected = "Connected as";
+
         MyDevice.Children.Add(new Assets.DeviceCard(_status.Self));
 
         foreach ((_, var device) in _status?.Peer ?? [])
@@ -98,8 +107,17 @@ public sealed partial class Home : Page, INotifyPropertyChanged
     {
         InitializeComponent();
 
-        _status = Core.API.GetStatus();
-        _profile = Core.API.GetCurrentUser();
+        Messaging.Instance.MessageReceived += (sender, e) =>
+        {
+            if (e.Kind == Messaging.MessageKind.IPNBusUpdate && (e.Key == "NetMap" || e.Key == "State"))
+            {
+                DispatcherQueue.TryEnqueue(() => { UpdateUI(); });
+            }
+            else if (e.Kind == Messaging.MessageKind.ProfileSwitch)
+            {
+                DispatcherQueue.TryEnqueue(() => { UpdateUI(); });
+            }
+        };
 
         UpdateUI();
     }

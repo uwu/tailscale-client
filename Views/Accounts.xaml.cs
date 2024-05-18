@@ -31,10 +31,16 @@ public sealed partial class Accounts : Page, INotifyPropertyChanged
     public void UpdateUI()
     {
         var accounts = API.GetAllProfiles();
-
         ConnectionToggle = API.GetPrefs().WantRunning;
+        ConnectionSwitch.IsEnabled = true;
 
         var currentAccount = accounts.Find(a => a.ID == API.GetCurrentUser().ID);
+        if (currentAccount == null)
+        {
+            ConnectionToggle = false;
+            ConnectionSwitch.IsEnabled = false;
+        }
+
         accounts.Remove(currentAccount);
 
         CurrentAccount.Children.Clear();
@@ -57,6 +63,11 @@ public sealed partial class Accounts : Page, INotifyPropertyChanged
 
         Messaging.Instance.MessageReceived += (sender, e) =>
         {
+            if (dialog == null)
+            {
+                return;
+            }
+
             if (e.Kind == Messaging.MessageKind.ProfileSwitch)
             {
                 DispatcherQueue.TryEnqueue(() =>
