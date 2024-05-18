@@ -35,6 +35,7 @@ This project aims to provide a modern, clean, and feature-rich Tailscale client 
 1. Clone the repository
 2. Open the solution in Visual Studio 2022
 3. Build the solution and run
+4. To install manually, you will need to build using "Package and Publish > Create App Packages" and following the wizard.
 
 ## Contributing
 Contributions are welcome! Please open an issue or pull request if you have any suggestions or changes.
