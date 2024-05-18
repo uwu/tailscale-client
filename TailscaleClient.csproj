@@ -1,0 +1,193 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows10.0.20348.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <RootNamespace>TailscaleClient</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Platforms>x64;ARM64</Platforms>
+    <RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers>
+    <UseRidGraph>true</UseRidGraph>
+    <UseWinUI>true</UseWinUI>
+    <EnableMsixTooling>true</EnableMsixTooling>
+    <GenerateAppInstallerFile>True</GenerateAppInstallerFile>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+    <PackageCertificateThumbprint>6244B24EB66A8A8DC7C9A7F39DF189D1EDB94A04</PackageCertificateThumbprint>
+    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
+    <GenerateTestArtifacts>True</GenerateTestArtifacts>
+    <AppxBundle>Never</AppxBundle>
+    <AppInstallerUri>http://localhost:8080</AppInstallerUri>
+    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+    <IsPublishable>True</IsPublishable>
+    <Title>Tailscale Client</Title>
+    <PackageIcon>Tailscale-AppIcon.png</PackageIcon>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Remove="Assets\AccountCard.xaml" />
+    <Content Remove="Assets\Android.png" />
+    <Content Remove="Assets\AppIcon.altform-lightunplated_targetsize-16.png" />
+    <Content Remove="Assets\AppIcon.altform-lightunplated_targetsize-24.png" />
+    <Content Remove="Assets\AppIcon.altform-lightunplated_targetsize-256.png" />
+    <Content Remove="Assets\AppIcon.altform-lightunplated_targetsize-32.png" />
+    <Content Remove="Assets\AppIcon.altform-lightunplated_targetsize-48.png" />
+    <Content Remove="Assets\AppIcon.altform-unplated_targetsize-16.png" />
+    <Content Remove="Assets\AppIcon.altform-unplated_targetsize-24.png" />
+    <Content Remove="Assets\AppIcon.altform-unplated_targetsize-256.png" />
+    <Content Remove="Assets\AppIcon.altform-unplated_targetsize-32.png" />
+    <Content Remove="Assets\AppIcon.altform-unplated_targetsize-48.png" />
+    <Content Remove="Assets\AppIcon.targetsize-16.png" />
+    <Content Remove="Assets\AppIcon.targetsize-24.png" />
+    <Content Remove="Assets\AppIcon.targetsize-32.png" />
+    <Content Remove="Assets\AppIcon.targetsize-48.png" />
+    <Content Remove="Assets\Apple.png" />
+    <Content Remove="Assets\ConfirmDialog.xaml" />
+    <Content Remove="Assets\ConfirmDialog.xaml.cs" />
+    <Content Remove="Assets\DeviceCard - Copy.xaml.cs" />
+    <Content Remove="Assets\DeviceCard.xaml" />
+    <Content Remove="Assets\FeatureTag - Copy.xaml.cs" />
+    <Content Remove="Assets\FeatureTag.xaml" />
+    <Content Remove="Assets\Linux.png" />
+    <Content Remove="Assets\LoginDialog - Copy.xaml.cs" />
+    <Content Remove="Assets\LoginDialog.xaml" />
+    <Content Remove="Assets\LoginDialog.xaml.cs" />
+    <Content Remove="Assets\TailscaleIcon - Copy.xaml.cs" />
+    <Content Remove="Assets\TailscaleIcon.xaml" />
+    <Content Remove="Assets\TailscaleIcon.xaml.cs" />
+    <Content Remove="Assets\Unknown.png" />
+    <Content Remove="Assets\Windows.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Assets\AccountCard.xaml" />
+    <None Remove="Assets\ConfirmDialog.xaml" />
+    <None Remove="Assets\DeviceCard.xaml" />
+    <None Remove="Assets\FeatureTag.xaml" />
+    <None Remove="Assets\LoginDialog.xaml" />
+    <None Remove="Assets\TailscaleIcon.xaml" />
+    <None Remove="Views\Accounts.xaml" />
+    <None Remove="Views\AppSkeleton.xaml" />
+    <None Remove="Views\Home.xaml" />
+    <None Remove="Views\Settings.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240428000" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
+    <PackageReference Include="QRCoder" Version="1.5.1" />
+    <Manifest Include="$(ApplicationManifest)" />
+  </ItemGroup>
+
+  <!--
+    Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
+    Tools extension to be activated for this project even if the Windows App SDK Nuget
+    package has not yet been restored.
+  -->
+  <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+    <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="Assets\Android.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Apple.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Linux.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Misc\Guest.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Platforms\Android.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Platforms\Apple.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Platforms\Linux.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Platforms\Unknown.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Platforms\Windows.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Windows.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Settings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Accounts.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Assets\AccountCard.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Assets\FeatureTag.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Assets\DeviceCard.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\AppSkeleton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Home.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Assets\TailscaleIcon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\Misc\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Assets\LoginDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Assets\ConfirmDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <None Update="Assets\Splash\Tailscale-AppIcon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <!--
+    Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution
+    Explorer "Package and Publish" context menu entry to be enabled for this project even if
+    the Windows App SDK Nuget package has not yet been restored.
+  -->
+  <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+    <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+</Project>

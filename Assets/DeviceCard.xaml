@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="TailscaleClient.Assets.DeviceCard"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TailscaleClient.Assets"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    
+    <StackPanel
+        Margin="0,8,0,0"
+        CornerRadius="8"
+        Padding="12,8,12,8"
+        BorderThickness="1"
+        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+    >
+        <StackPanel Orientation="Horizontal">
+            <BitmapIcon Width="12" Height="12" UriSource="{x:Bind OSIcon, Mode=OneTime}" Foreground="{ThemeResource TextFillColorPrimary}"/>
+            <TextBlock x:Name ="hostnameTextBlock" Text="{x:Bind Hostname, Mode=OneTime}" Margin="6,0,0,4" ToolTipService.ToolTip="Click to copy" PointerReleased="CopyToClipboard" PointerEntered="HoverStart" PointerExited="HoverEnd"/>
+        </StackPanel>
+        
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Tailscale IPv4: " Margin="0,0,4,0"/>
+            <TextBlock x:Name ="ipv4TextBlock" Foreground="{StaticResource TextFillColorSecondary}" Text="{x:Bind IPv4, Mode=OneTime}" ToolTipService.ToolTip="Click to copy" PointerReleased="CopyToClipboard" PointerEntered="HoverStart" PointerExited="HoverEnd"/>
+        </StackPanel>
+        
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Tailscale IPv6: " Margin="0,0,4,0"/>
+            <TextBlock x:Name ="ipv6TextBlock" Foreground="{StaticResource TextFillColorSecondary}" Text="{x:Bind IPv6, Mode=OneTime}" ToolTipService.ToolTip="Click to copy" PointerReleased="CopyToClipboard" PointerEntered="HoverStart" PointerExited="HoverEnd"/>
+        </StackPanel>
+        
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="FQDN: " Margin="0,0,4,0"/>
+            <TextBlock x:Name ="fqdnTextBlock" Foreground="{StaticResource TextFillColorSecondary}" Text="{x:Bind TailnetDNS, Mode=OneTime}" ToolTipService.ToolTip="Click to copy" PointerReleased="CopyToClipboard" PointerEntered="HoverStart" PointerExited="HoverEnd"/>
+        </StackPanel>
+        
+        <Grid Margin="0,8,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel x:Name="TagSection" Orientation="Horizontal" Grid.Column="0"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1">
+                <TextBlock Foreground="{x:Bind StatusTextColor, Mode=OneTime}" Text="{x:Bind StatusText, Mode=OneTime}" Style="{StaticResource CaptionTextBlockStyle}" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                <Ellipse Margin="0,1,0,0" Height="12" Width="12" Fill="{x:Bind StatusColor, Mode=OneTime}"></Ellipse>
+            </StackPanel>
+        </Grid>
+    </StackPanel>
+</UserControl>

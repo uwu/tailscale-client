@@ -1,0 +1,8 @@
+{
+    "profiles": {
+        "Tailscale": {
+            "commandName": "MsixPackage",
+            "nativeDebugging": false
+        }
+    }
+}

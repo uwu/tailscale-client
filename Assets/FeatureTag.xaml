@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="TailscaleClient.Assets.FeatureTag"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TailscaleClient.Assets"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    
+    <StackPanel
+        Margin="-3,0,5,0"
+        Padding="6,2,6,2"
+        CornerRadius="4"
+        BorderThickness="1"
+        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+        Background="{x:Bind BackgroundColor}"
+    >
+        <TextBlock Text="{x:Bind TagText, Mode=OneTime}" Foreground="{x:Bind ForegroundColor, Mode=OneTime}" Style="{ThemeResource CaptionTextBlockStyle}" ToolTipService.ToolTip="{x:Bind ToolTipText, Mode=OneTime}"/>
+    </StackPanel>
+</UserControl>
