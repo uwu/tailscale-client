@@ -20,6 +20,11 @@ This project aims to provide a modern, clean, and feature-rich Tailscale client 
 - [ ] Settings (Run unattended, allow Tailscale DNS, accept subnets)
 - [ ] Taildrop
 
+## Installation
+
+> [!CAUTION]
+> There is no easy way to install this as of right now. You will need to build it yourself. This is a work in progress.
+
 ## Building and running
 0. Prerequisites
    - Visual Studio 2022
