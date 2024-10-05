@@ -27,25 +27,24 @@ internal static class API
         var httpHandler = new SocketsHttpHandler
         {
             ConnectCallback =
-                async (context, token) =>
-                {
-                    var pipeClientStream = new NamedPipeClientStream(
-                        serverName: ".", pipeName: TailscaleSocket, PipeDirection.InOut,
-                        PipeOptions.Asynchronous, TokenImpersonationLevel.Impersonation);
-                    await pipeClientStream.ConnectAsync(token);
+              async (context, token) =>
+              {
+                  var pipeClientStream = new NamedPipeClientStream(
+                  serverName: ".", pipeName: TailscaleSocket, PipeDirection.InOut,
+                  PipeOptions.Asynchronous, TokenImpersonationLevel.Impersonation);
+                  await pipeClientStream.ConnectAsync(token);
 
-                    return pipeClientStream;
-                },
+                  return pipeClientStream;
+              },
         };
 
         _client = new HttpClient(httpHandler)
         {
             BaseAddress = new Uri("http://local-tailscaled.sock"),
             DefaultRequestHeaders = { { "User-Agent", "Go-http-client/1.1" },
-                                      { "Tailscale-Cap",
-                                        "95" },  // TODO: Get the real value i just
-                                                 // copied it from tailscale-ipn packets
-                                      { "Accept-Encoding", "gzip" } }
+                                { "Tailscale-Cap", "95" },  // TODO: Get the real value i just
+                                                            // copied it from tailscale-ipn packets
+                                { "Accept-Encoding", "gzip" } }
         };
 
         InitializeBusWatcher();
@@ -97,8 +96,7 @@ internal static class API
                         continue;
                     }
                     Debug.WriteLine($"[IPN] {key}: {valueStr}");
-                    Messaging.Instance.SendMessage(Messaging.MessageKind.IPNBusUpdate, key,
-                                                   valueStr);
+                    Messaging.Instance.SendMessage(Messaging.MessageKind.IPNBusUpdate, key, valueStr);
                 }
             }
         });
@@ -130,8 +128,7 @@ internal static class API
         }
         catch (JsonException)
         {
-            throw new Exception("Failed to parse Tailscale JSON output for " +
-                                webRequest.RequestUri);
+            throw new Exception("Failed to parse Tailscale JSON output for " + webRequest.RequestUri);
         }
         catch (HttpRequestException e)
         {
@@ -152,41 +149,29 @@ internal static class API
 
     public static T PATCH<T>(string endpoint, dynamic prefs)
     {
-        var webRequest = new HttpRequestMessage(HttpMethod.Patch,
-                                                endpoint)
-        {
-            Content = JsonContent.Create(prefs)
-        };
+        var webRequest =
+            new HttpRequestMessage(HttpMethod.Patch, endpoint) { Content = JsonContent.Create(prefs) };
         return Execute<T>(webRequest);
     }
 
     public static T POST<T>(string endpoint, dynamic prefs)
     {
-        var webRequest = new HttpRequestMessage(HttpMethod.Post,
-                                                endpoint)
-        {
-            Content = JsonContent.Create(prefs)
-        };
+        var webRequest =
+            new HttpRequestMessage(HttpMethod.Post, endpoint) { Content = JsonContent.Create(prefs) };
         return Execute<T>(webRequest);
     }
 
     public static T PUT<T>(string endpoint, dynamic prefs)
     {
-        var webRequest = new HttpRequestMessage(HttpMethod.Put,
-                                                endpoint)
-        {
-            Content = JsonContent.Create(prefs)
-        };
+        var webRequest =
+            new HttpRequestMessage(HttpMethod.Put, endpoint) { Content = JsonContent.Create(prefs) };
         return Execute<T>(webRequest);
     }
 
     public static T DELETE<T>(string endpoint, dynamic prefs)
     {
-        var webRequest = new HttpRequestMessage(HttpMethod.Delete,
-                                                endpoint)
-        {
-            Content = JsonContent.Create(prefs)
-        };
+        var webRequest =
+            new HttpRequestMessage(HttpMethod.Delete, endpoint) { Content = JsonContent.Create(prefs) };
         return Execute<T>(webRequest);
     }
 
@@ -227,12 +212,22 @@ internal static class API
 
     public static void Start(Types.Prefs prefs)
     {
-        POST<dynamic>("/localapi/v0/start", prefs);
+        POST<dynamic>("/localapi/v0/start", new { UpdatePrefs = prefs });
     }
 
-    public static void UpdatePrefs(Types.Prefs prefs)
+    public static Types.Prefs UpdatePrefs(Types.Prefs prefs)
+    {
+        return PATCH<Types.Prefs>("/localapi/v0/prefs", prefs);
+    }
+
+    public static void UpdatePrefs(dynamic prefs)
     {
         PATCH<dynamic>("/localapi/v0/prefs", prefs);
+    }
+
+    public static void CheckPrefs(Types.Prefs prefs)
+    {
+        POST<string>("/localapi/v0/check-prefs", prefs);
     }
 
     public static void Logout()
@@ -244,13 +239,9 @@ internal static class API
     {
         SwitchEmptyProfile();
 
-        var prefs = new Types.Prefs()
-        {
-            WantRunning = true,
-            WantRunningSet = true,
-            ControlURL = controlUrl
-        };
-        UpdatePrefs(prefs);
+        var prefs =
+            new Types.Prefs() { WantRunning = true, ControlURL = controlUrl };
+        Start(prefs);
         POST<dynamic>("/localapi/v0/login-interactive", new { });
     }
 
@@ -261,13 +252,13 @@ internal static class API
 
     public static void Connect()
     {
-        var prefs = new Types.Prefs() { WantRunning = true, WantRunningSet = true };
-        UpdatePrefs(prefs);
+        var currentPrefs = GetPrefs();
+        currentPrefs.WantRunning = true;
+        currentPrefs.WantRunningSet = true;
+        UpdatePrefs(currentPrefs);
     }
-
     public static void Disconnect()
     {
-        var prefs = new Types.Prefs() { WantRunning = false, WantRunningSet = true };
-        UpdatePrefs(prefs);
+        UpdatePrefs(new Types.Prefs { WantRunning = false, WantRunningSet = true });
     }
 }

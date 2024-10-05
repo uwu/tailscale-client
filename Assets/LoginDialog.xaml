@@ -12,7 +12,7 @@
     <StackPanel>
         <StackPanel x:Name="LoginContent" Visibility="Collapsed">
             <TextBlock Text="Waiting for URL from backend..." x:Name="LoginWarn"/>
-            <HyperlinkButton x:Name="LoginURL" Visibility="Collapsed"/>
+            <HyperlinkButton x:Name="LoginURL" Visibility="Collapsed" MaxWidth="288" HorizontalAlignment="Center"/>
             <ProgressRing IsActive="True" Width="32" Height="32" x:Name="Spinner" Margin="0,32,0,8"/>
             <Image Width="192" Height="192" Margin="0,32,0,8" x:Name="QRImage">
                 <Image.Source>
@@ -21,7 +21,7 @@
             </Image>
         </StackPanel>
         <StackPanel x:Name="PreLoginContent" Visibility="Visible">
-            <TextBlock Text="If you're using a custom control server (such as headscale), enter the URL below." TextWrapping="WrapWholeWords"/>
+            <TextBlock Text="If you're using a custom control server (such as Headscale), enter the URL below. Leave empty for default." TextWrapping="WrapWholeWords"/>
             <TextBox Margin="0,16,0,0" x:Name="ControlServerUrl" PlaceholderText="https://login.tailscale.com" TextChanged="ResetError" />
             <TextBlock x:Name="Error" Foreground="{ThemeResource SystemFillColorCriticalBrush}" Text=" "/>
         </StackPanel>

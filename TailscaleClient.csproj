@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows10.0.20348.0</TargetFramework>
+    <TargetFramework>net8.0-windows10.0.22000.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <RootNamespace>TailscaleClient</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -10,20 +10,25 @@
     <UseRidGraph>true</UseRidGraph>
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
-    <GenerateAppInstallerFile>True</GenerateAppInstallerFile>
-    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-    <PackageCertificateThumbprint>6244B24EB66A8A8DC7C9A7F39DF189D1EDB94A04</PackageCertificateThumbprint>
+    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+    <AppxPackageSigningEnabled>False</AppxPackageSigningEnabled>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
-    <AppxBundle>Never</AppxBundle>
-    <AppInstallerUri>http://localhost:8080</AppInstallerUri>
+    <AppxBundle>Always</AppxBundle>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <IsPublishable>True</IsPublishable>
     <Title>Tailscale Client</Title>
     <PackageIcon>Tailscale-AppIcon.png</PackageIcon>
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <StartupObject>TailscaleClient.Program</StartupObject>
+    <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
+    <WindowsSdkPackageVersion>10.0.22000.38</WindowsSdkPackageVersion>
+    <AppxBundlePlatforms>x64|arm64</AppxBundlePlatforms>
+    <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
+    <AppxPackageDir>C:\Users\xirreal\Workspace\TailscaleClient\dist\</AppxPackageDir>
+	<!--<PublishAot>true</PublishAot>-->
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\AccountCard.xaml" />
@@ -73,9 +78,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240428000" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240923002" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
-    <PackageReference Include="QRCoder" Version="1.5.1" />
+    <PackageReference Include="QRCoder" Version="1.6.0" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
