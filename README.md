@@ -1,8 +1,8 @@
 # Tailscale Client
 A modern, WinUI3-based Tailscale client for Windows.
 
-This project was born out of wanting to mess around with WinUI3, and the fact that the Tailscale Windows client looks not great compared to MacOS.
-This project aims to provide a modern, clean, and feature-rich Tailscale client for Windows while being fully open source, unlike the official one.
+This project was born out of wanting to mess around with WinUI3, and the fact that the Tailscale Windows client looks... not great compared to MacOS.
+It aims to provide a modern, clean, and feature-rich Tailscale client for Windows while being fully open source, unlike the official one.
 
 > [!IMPORTANT]  
 > Not all features (even somewhat basic ones!) are implemented at this time. This is a work in progress.
@@ -30,12 +30,15 @@ This project aims to provide a modern, clean, and feature-rich Tailscale client 
    - Visual Studio 2022
    - Windows 10 21H1 or later
    - Windows SDK 22000.194 or later
-   - Windows App SDK 1.3
+   - Windows App SDK 1.6
    - .NET 8.0 SDK
 1. Clone the repository
 2. Open the solution in Visual Studio 2022
 3. Build the solution and run
-4. To install manually, you will need to build using "Package and Publish > Create App Packages" and following the wizard.
+4. To install manually, you will need to build using "Project > Package and Publish > Create App Packages" and following the wizard.
+
+> [!WARNING]
+> To install manually, you will need to sideload the msix package. You MUST install the certificate you used to sign the package on your device, or it will not install.
 
 ## Contributing
 Contributions are welcome! Please open an issue or pull request if you have any suggestions or changes.
