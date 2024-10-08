@@ -28,6 +28,7 @@
     <AppxBundlePlatforms>x64|arm64</AppxBundlePlatforms>
     <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
     <AppxPackageDir>C:\Users\xirreal\Workspace\TailscaleClient\dist\</AppxPackageDir>
+    <SelfContained>true</SelfContained>
 	<!--<PublishAot>true</PublishAot>-->
   </PropertyGroup>
   <ItemGroup>
