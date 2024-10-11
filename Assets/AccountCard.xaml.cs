@@ -11,7 +11,7 @@ public sealed partial class AccountCard : UserControl
     public string UserName = "";
     public string Tailnet = "";
     public string ProfilePicture = "ms-appx:///Assets/Misc/Guest.png";
-    private string UserID = "";
+    private readonly string UserID = "";
     private readonly Core.Types.Profile _profile;
 
     public AccountCard(Core.Types.Profile profile, bool current)

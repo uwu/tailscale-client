@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace TailscaleClient.Core;
 public class Types
@@ -201,7 +205,7 @@ public class Types
         {
             get; set;
         }
-        public object Health
+        public List<string> Health
         {
             get; set;
         }
@@ -456,4 +460,100 @@ public class Types
         // OutgoingFiles
         NotifyInitialOutgoingFiles = 1 << 6
     }
+
+    public class Warning
+    {
+        public string WarnableCode
+        {
+            get; set;
+        }
+        public string Severity
+        {
+            get; set;
+        }
+        public string Title
+        {
+            get; set;
+        }
+        public string Text
+        {
+            get; set;
+        }
+        public DateTime BrokenSince
+        {
+            get; set;
+        }
+        public Dictionary<string, string> Args
+        {
+            get; set;
+        }
+        public List<string> DependsOn
+        {
+            get; set;
+        }
+        public bool ImpactsConnectivity
+        {
+            get; set;
+        }
+
+        public TextBlock GetWarningComponent()
+        {
+            var warningTextBlock = new TextBlock
+            {
+                Text = Text,
+                TextWrapping = TextWrapping.WrapWholeWords,
+            };
+
+            // Add tooltip
+            var tooltip = new ToolTip
+            {
+                Content = $"Code: {WarnableCode}\nBroken since: {BrokenSince}"
+            };
+
+            ToolTipService.SetToolTip(warningTextBlock, tooltip);
+
+            return warningTextBlock;
+        }
+
+        // Static method to parse JSON and return a list of warnings
+        public static List<Warning> ParseWarningsFromJson(string json)
+        {
+            var warningsList = new List<Warning>();
+
+            try
+            {
+                // Parse the JSON into a JsonObject
+                var root = JsonNode.Parse(json)?.AsObject();
+
+                if (root != null && root.ContainsKey("Warnings"))
+                {
+                    try
+                    {
+                        var warnings = root["Warnings"].AsObject();
+
+                        // Iterate through each warning entry (ignoring the key)
+                        foreach (var warningEntry in warnings)
+                        {
+                            var warning = warningEntry.Value.Deserialize<Warning>();
+                            if (warning != null)
+                            {
+                                warningsList.Add(warning);
+                            }
+                        }
+                    }
+                    catch (NullReferenceException)
+                    {
+                        return warningsList;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error parsing warnings: {ex.Message}");
+            }
+
+            return warningsList;
+        }
+    }
 }
+

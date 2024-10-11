@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Microsoft.UI.Xaml.Controls;
@@ -28,7 +29,8 @@ public sealed partial class AppSkeleton : Page, INotifyPropertyChanged
     {
         InitializeComponent();
 
-        if (Core.API.GetStatus().BackendState == "NeedsLogin")
+        var status = Core.API.GetStatus();
+        if (status.BackendState == "NeedsLogin")
         {
             NavigationViewControl.SelectedItem = NavigationViewControl.MenuItems[1];
             ContentFrame.Navigate(typeof(Accounts), null, new SuppressNavigationTransitionInfo());
@@ -38,6 +40,15 @@ public sealed partial class AppSkeleton : Page, INotifyPropertyChanged
             NavigationViewControl.SelectedItem = NavigationViewControl.MenuItems[0];
             ContentFrame.Navigate(typeof(Home), null, new SuppressNavigationTransitionInfo());
         }
+
+        Core.Messaging.Instance.MessageReceived += (sender, e) =>
+        {
+            if (e.Kind == Core.Messaging.MessageKind.HealthUpdate)
+            {
+                var warnings = Core.Types.Warning.ParseWarningsFromJson(e.Value);
+                DispatcherQueue.TryEnqueue(() => UpdateWarnings(warnings));
+            }
+        };
 
         Loaded += (sender, e) =>
         {
@@ -91,5 +102,36 @@ public sealed partial class AppSkeleton : Page, INotifyPropertyChanged
         ContentFrame.IsEnabled = true;
 
         LoadingBackground.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+    }
+
+    public void UpdateWarnings(List<Core.Types.Warning> warnings)
+    {
+        if (warnings.Count > 0)
+        {
+            InfoBarContent.Children.Clear();
+            foreach (var warning in warnings)
+            {
+                InfoBarContent.Children.Add(warning.GetWarningComponent());
+            }
+            InfoBar.IsOpen = true;
+            InfoBar.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+            InfoBar.Title = $"{warnings.Count} warning{(warnings.Count != 1 ? "s" : "")}";
+        }
+        else
+        {
+            HideInfoBar();
+        }
+    }
+
+    private void HideInfoBar()
+    {
+        InfoBar.IsOpen = false;
+        InfoBarContent.Children.Clear();
+        InfoBar.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+    }
+
+    private void HideInfoBar(InfoBar _, object __)
+    {
+        HideInfoBar();
     }
 }

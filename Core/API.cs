@@ -15,14 +15,19 @@ internal static class API
 {
     private static HttpClient _client = null;
 
-    private static readonly string TailscaleSocket =
-        @"ProtectedPrefix\Administrators\Tailscale\tailscaled";
+    private static readonly string TailscaleSocket = @"ProtectedPrefix\Administrators\Tailscale\tailscaled";
 
     private static readonly string DefaultControlURL = "https://controlplane.tailscale.com";
 
-    public static void Init()
+    public static bool Init()
     {
         Debug.WriteLine("Initializing Tailscale API");
+
+        // Check if the Tailscale pipe exists 
+        if (Directory.GetFiles($@"\\.\pipe\", "*tailscaled").Length < 1)
+        {
+            return false;
+        }
 
         var httpHandler = new SocketsHttpHandler
         {
@@ -44,10 +49,12 @@ internal static class API
             DefaultRequestHeaders = { { "User-Agent", "Go-http-client/1.1" },
                                 { "Tailscale-Cap", "95" },  // TODO: Get the real value i just
                                                             // copied it from tailscale-ipn packets
-                                { "Accept-Encoding", "gzip" } }
+                                { "Accept-Encoding", "gzip" } },
+            Timeout = TimeSpan.FromSeconds(2)
         };
 
         InitializeBusWatcher();
+        return true;
     }
 
     public static void InitializeBusWatcher()
@@ -96,7 +103,8 @@ internal static class API
                         continue;
                     }
                     Debug.WriteLine($"[IPN] {key}: {valueStr}");
-                    Messaging.Instance.SendMessage(Messaging.MessageKind.IPNBusUpdate, key, valueStr);
+                    var messageKind = key == "Health" ? Messaging.MessageKind.HealthUpdate : Messaging.MessageKind.IPNBusUpdate;
+                    Messaging.Instance.SendMessage(messageKind, key, valueStr);
                 }
             }
         });
@@ -109,36 +117,20 @@ internal static class API
 
     private static T Execute<T>(HttpRequestMessage webRequest)
     {
-        try
-        {
-            var response = _client.Send(webRequest);
-            response.EnsureSuccessStatusCode();
+        var response = _client.Send(webRequest);
+        response.EnsureSuccessStatusCode();
 
-            using var reader = new StreamReader(response.Content.ReadAsStream());
-            var body = reader.ReadToEnd();
+        using var reader = new StreamReader(response.Content.ReadAsStream());
+        var body = reader.ReadToEnd();
 
-            // evil trickery to convert to T to string or object, trusting the user (me) to not be
-            // stupid please just use JSON objects so it can deserialize properly
-            if (typeof(T) == typeof(object) || typeof(T) == typeof(string))
-            {
-                return (T)Convert.ChangeType(body, typeof(T));
-            }
+        // evil trickery to convert to T to string or object, trusting the user (me) to not be
+        // stupid please just use JSON objects so it can deserialize properly
+        if (typeof(T) == typeof(object) || typeof(T) == typeof(string))
+        {
+            return (T)Convert.ChangeType(body, typeof(T));
+        }
 
-            return JsonSerializer.Deserialize<T>(body);
-        }
-        catch (JsonException)
-        {
-            throw new Exception("Failed to parse Tailscale JSON output for " + webRequest.RequestUri);
-        }
-        catch (HttpRequestException e)
-        {
-            throw new Exception("Failed to connect to Tailscale service: " + e.Message);
-        }
-        catch (Exception e)
-        {
-            throw new Exception(
-                $"Unknown failure trying to {webRequest.Method} {webRequest.RequestUri}: {e.Message}");
-        }
+        return JsonSerializer.Deserialize<T>(body);
     }
 
     public static T GET<T>(string endpoint)
@@ -147,28 +139,28 @@ internal static class API
         return Execute<T>(webRequest);
     }
 
-    public static T PATCH<T>(string endpoint, dynamic prefs)
+    public static T PATCH<T, U>(string endpoint, U prefs)
     {
         var webRequest =
             new HttpRequestMessage(HttpMethod.Patch, endpoint) { Content = JsonContent.Create(prefs) };
         return Execute<T>(webRequest);
     }
 
-    public static T POST<T>(string endpoint, dynamic prefs)
+    public static T POST<T, U>(string endpoint, U prefs)
     {
         var webRequest =
             new HttpRequestMessage(HttpMethod.Post, endpoint) { Content = JsonContent.Create(prefs) };
         return Execute<T>(webRequest);
     }
 
-    public static T PUT<T>(string endpoint, dynamic prefs)
+    public static T PUT<T, U>(string endpoint, U prefs)
     {
         var webRequest =
             new HttpRequestMessage(HttpMethod.Put, endpoint) { Content = JsonContent.Create(prefs) };
         return Execute<T>(webRequest);
     }
 
-    public static T DELETE<T>(string endpoint, dynamic prefs)
+    public static T DELETE<T, U>(string endpoint, U prefs)
     {
         var webRequest =
             new HttpRequestMessage(HttpMethod.Delete, endpoint) { Content = JsonContent.Create(prefs) };
@@ -197,42 +189,42 @@ internal static class API
 
     public static void SwitchEmptyProfile()
     {
-        PUT<dynamic>("/localapi/v0/profiles/", new { });
+        PUT<object, object>("/localapi/v0/profiles/", new { });
     }
 
     public static void SwitchProfile(string userId)
     {
-        POST<dynamic>($"localapi/v0/profiles/{userId}", new { });
+        POST<object, object>($"localapi/v0/profiles/{userId}", new { });
     }
 
     public static void DeleteProfile(string userId)
     {
-        DELETE<dynamic>($"localapi/v0/profiles/{userId}", new { });
+        DELETE<object, object>($"localapi/v0/profiles/{userId}", new { });
     }
 
     public static void Start(Types.Prefs prefs)
     {
-        POST<dynamic>("/localapi/v0/start", new { UpdatePrefs = prefs });
+        POST<object, object>("/localapi/v0/start", new { UpdatePrefs = prefs });
     }
 
     public static Types.Prefs UpdatePrefs(Types.Prefs prefs)
     {
-        return PATCH<Types.Prefs>("/localapi/v0/prefs", prefs);
+        return PATCH<Types.Prefs, Types.Prefs>("/localapi/v0/prefs", prefs);
     }
 
     public static void UpdatePrefs(dynamic prefs)
     {
-        PATCH<dynamic>("/localapi/v0/prefs", prefs);
+        PATCH<object, object>("/localapi/v0/prefs", prefs);
     }
 
     public static void CheckPrefs(Types.Prefs prefs)
     {
-        POST<string>("/localapi/v0/check-prefs", prefs);
+        POST<string, Types.Prefs>("/localapi/v0/check-prefs", prefs);
     }
 
     public static void Logout()
     {
-        POST<dynamic>("/localapi/v0/logout", new { });
+        POST<object, object>("/localapi/v0/logout", new { });
     }
 
     public static void Login(string controlUrl)
@@ -242,7 +234,7 @@ internal static class API
         var prefs =
             new Types.Prefs() { WantRunning = true, ControlURL = controlUrl };
         Start(prefs);
-        POST<dynamic>("/localapi/v0/login-interactive", new { });
+        POST<object, object>("/localapi/v0/login-interactive", new { });
     }
 
     public static void Login()

@@ -10,7 +10,7 @@
   <Identity
     Name="xirreal.TailscaleClient"
     Publisher="CN=780F1371-8BE2-4A0E-A4FB-310D359D361F"
-    Version="1.0.0.0" />
+    Version="1.1.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="9e756f67-6d0d-4171-a5c1-d5bc42c973ec" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 

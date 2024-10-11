@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Controls;
@@ -58,6 +59,9 @@ public sealed partial class DeviceCard : UserControl
     private readonly SolidColorBrush StatusTextColor = GetStatusTextColor(true);
 
     public readonly string OwnedBy = "-1";
+    public readonly string OwnedByString = "Owned by Unknown";
+    public readonly string ProfilePicture = "ms-appx:///Assets/Misc/Guest.png";
+    public readonly bool IsOwnedByCurrentUser = true;
 
     public DeviceCard()
     {
@@ -77,11 +81,20 @@ public sealed partial class DeviceCard : UserControl
     public void Hide() => Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
     public void Show() => Visibility = Microsoft.UI.Xaml.Visibility.Visible;
 
-    public DeviceCard(Core.Types.PeerInfo device)
+    public DeviceCard(Core.Types.PeerInfo device, Dictionary<string, Core.Types.User> user, string currentUserId)
     {
         InitializeComponent();
 
         OwnedBy = device.UserID.ToString();
+        OwnedByString = "Owned by " + user[OwnedBy].DisplayName;
+        IsOwnedByCurrentUser = currentUserId != OwnedBy;
+
+        var ownerPfp = user[OwnedBy].ProfilePicURL;
+
+        if (Uri.TryCreate(ownerPfp, UriKind.Absolute, out _))
+        {
+            ProfilePicture = ownerPfp;
+        }
 
         var dnsName = device.DNSName;
         var nickname = dnsName.Split(".")[0];

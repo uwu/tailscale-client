@@ -6,7 +6,7 @@ public class Messaging
 {
     public enum MessageKind
     {
-        ProfileSwitch, IPNBusUpdate
+        ProfileSwitch, IPNBusUpdate, HealthUpdate, VersionBroadcast
     }
 
     public class CoreMessagingEvent

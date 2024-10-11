@@ -43,12 +43,14 @@
             <NavigationView.MenuItems>
                 <NavigationViewItem Content="Devices" Tag="Home">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE703;" /> <!--Connect icon-->
+                        <FontIcon Glyph="&#xE703;" />
+                        <!--Connect icon-->
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem Content="Tailnets" Tag="Accounts">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xEC27;" /> <!--Switch icon-->
+                        <FontIcon Glyph="&#xEC27;" />
+                        <!--Switch icon-->
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>
@@ -60,24 +62,18 @@
                         <TextBlock Text="{x:Bind LoadingMessage, Mode=OneWay}" Margin="0,10,0,0" />
                     </StackPanel>
                 </Grid>
-                <!--<StackPanel>
-                    <InfoBar x:Name="InfoBar" IsOpen="True" Severity="Success" >
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Update available!" VerticalAlignment="Center"/>
-                            <Button Grid.Column="1">
-                                <TextBlock FontSize="13" Text="Update now" VerticalAlignment="Center"/>
-                            </Button>
-                        </Grid>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <InfoBar Grid.Row="0" x:Name="InfoBar" IsOpen="True" Margin="8" Severity="Warning" Title="Warning" Visibility="Collapsed" CloseButtonClick="HideInfoBar">
+                        <StackPanel x:Name="InfoBarContent" Grid.Column="0" Padding="0,0,16,24">
+                        </StackPanel>
                     </InfoBar>
-                    <Frame x:Name="ContentFrame"/>
-                </StackPanel>-->
-                <Frame x:Name="ContentFrame"/>
+                    <Frame Grid.Row="1" x:Name="ContentFrame"/>
+                </Grid>
             </Grid>
-            
         </NavigationView>
     </Grid>
 </Page>

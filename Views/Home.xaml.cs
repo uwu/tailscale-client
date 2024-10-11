@@ -95,11 +95,11 @@ public sealed partial class Home : Page, INotifyPropertyChanged
 
         AmIConnected = "Connected as";
 
-        MyDevice.Children.Add(new Assets.DeviceCard(_status.Self));
+        MyDevice.Children.Add(new Assets.DeviceCard(_status.Self, _status.User, UserID));
 
         foreach ((_, var device) in _status?.Peer ?? [])
         {
-            OtherDevices.Children.Add(new Assets.DeviceCard(device));
+            OtherDevices.Children.Add(new Assets.DeviceCard(device, _status.User, UserID));
         }
     }
 

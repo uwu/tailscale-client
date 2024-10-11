@@ -23,7 +23,18 @@ internal class Utils
         } as SolidColorBrush;
     }
 
-    public static Dictionary<string, SolidColorBrush> colors = new();
+    private static SolidColorBrush GetSeverityColor(string severity)
+    {
+        return severity switch
+        {
+            "high" => Application.Current.Resources["SystemFillColorCriticalBrush"],
+            "medium" => Application.Current.Resources["SystemFillColorCautionBrush"],
+            "low" => Application.Current.Resources["SystemFillColorSuccessBrush"],
+            _ => Application.Current.Resources["SystemFillColorNeutralBrush"]
+        } as SolidColorBrush;
+    }
+
+    public static Dictionary<string, SolidColorBrush> colors = [];
 
     public static void InitializeColors()
     {
@@ -31,5 +42,9 @@ internal class Utils
         colors.Add("StatusFail", GetStatusColor(false));
         colors.Add("TextSuccess", GetStatusTextColor(true));
         colors.Add("TextFail", GetStatusTextColor(false));
+        colors.Add("SeverityHigh", GetSeverityColor("high"));
+        colors.Add("SeverityMedium", GetSeverityColor("medium"));
+        colors.Add("SeverityLow", GetSeverityColor("low"));
+        colors.Add("SeverityUnknown", GetSeverityColor("unknown"));
     }
 }

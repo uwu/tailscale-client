@@ -16,10 +16,27 @@
         BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
         Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
     >
-        <StackPanel Orientation="Horizontal">
-            <BitmapIcon Width="12" Height="12" UriSource="{x:Bind OSIcon, Mode=OneTime}" Foreground="{ThemeResource TextFillColorPrimary}"/>
-            <TextBlock x:Name ="hostnameTextBlock" Text="{x:Bind Hostname, Mode=OneTime}" Margin="6,0,0,4" ToolTipService.ToolTip="Click to copy" PointerReleased="CopyToClipboard" PointerEntered="HoverStart" PointerExited="HoverEnd"/>
-        </StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <BitmapIcon Grid.Column="0" Width="12" Height="12" UriSource="{x:Bind OSIcon, Mode=OneTime}" Foreground="{ThemeResource TextFillColorPrimary}"/>
+            <TextBlock Grid.Column="1" x:Name ="hostnameTextBlock" Text="{x:Bind Hostname, Mode=OneTime}" Margin="6,0,0,4" ToolTipService.ToolTip="Click to copy" PointerReleased="CopyToClipboard" PointerEntered="HoverStart" PointerExited="HoverEnd"/>
+            <Ellipse Height="24" Width="24" Margin="0,0,-2,0" HorizontalAlignment="Right" Grid.Column="2" ToolTipService.ToolTip="{x:Bind OwnedByString, Mode=OneTime}" Visibility="{x:Bind IsOwnedByCurrentUser, Mode=OneTime}">
+                <Ellipse.Fill>
+                    <ImageBrush>
+                        <ImageBrush.ImageSource>
+                            <BitmapImage UriSource="{x:Bind ProfilePicture, Mode=OneWay}">
+                                <BitmapImage.DecodePixelHeight>64</BitmapImage.DecodePixelHeight>
+                                <BitmapImage.DecodePixelWidth>64</BitmapImage.DecodePixelWidth>
+                            </BitmapImage>
+                        </ImageBrush.ImageSource>
+                    </ImageBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+        </Grid>
         
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Tailscale IPv4: " Margin="0,0,4,0"/>
