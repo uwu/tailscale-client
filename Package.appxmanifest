@@ -36,10 +36,9 @@
             DisplayName="Tailscale Client"
             Description="Modern FluentUI Tailscale Client packed with features."
 		    Square150x150Logo="Assets\Icons\AppIcon.png" 
-		    BackgroundColor="transparent" Square44x44Logo="Assets\Icons\AppIcon.png"
+		    BackgroundColor="transparent"  Square44x44Logo="Assets\Icons\AppIcon.png"
 		>
-        <uap:SplashScreen Image="Assets\Splash\SplashScreen.png"/>
-        <uap:DefaultTile>
+        <uap:DefaultTile >
           <uap:ShowNameOnTiles>
             <uap:ShowOn Tile="square150x150Logo"/>
           </uap:ShowNameOnTiles>

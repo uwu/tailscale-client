@@ -55,6 +55,21 @@
     <Content Remove="Assets\DeviceCard.xaml" />
     <Content Remove="Assets\FeatureTag - Copy.xaml.cs" />
     <Content Remove="Assets\FeatureTag.xaml" />
+    <Content Remove="Assets\Icons\AppIcon.altform-lightunplated_targetsize-16.png" />
+    <Content Remove="Assets\Icons\AppIcon.altform-lightunplated_targetsize-24.png" />
+    <Content Remove="Assets\Icons\AppIcon.altform-lightunplated_targetsize-256.png" />
+    <Content Remove="Assets\Icons\AppIcon.altform-lightunplated_targetsize-32.png" />
+    <Content Remove="Assets\Icons\AppIcon.altform-lightunplated_targetsize-48.png" />
+    <Content Remove="Assets\Icons\AppIcon.altform-unplated_targetsize-16.png" />
+    <Content Remove="Assets\Icons\AppIcon.altform-unplated_targetsize-24.png" />
+    <Content Remove="Assets\Icons\AppIcon.altform-unplated_targetsize-256.png" />
+    <Content Remove="Assets\Icons\AppIcon.altform-unplated_targetsize-32.png" />
+    <Content Remove="Assets\Icons\AppIcon.altform-unplated_targetsize-48.png" />
+    <Content Remove="Assets\Icons\AppIcon.targetsize-16.png" />
+    <Content Remove="Assets\Icons\AppIcon.targetsize-24.png" />
+    <Content Remove="Assets\Icons\AppIcon.targetsize-256.png" />
+    <Content Remove="Assets\Icons\AppIcon.targetsize-32.png" />
+    <Content Remove="Assets\Icons\AppIcon.targetsize-48.png" />
     <Content Remove="Assets\Linux.png" />
     <Content Remove="Assets\LoginDialog - Copy.xaml.cs" />
     <Content Remove="Assets\LoginDialog.xaml" />
@@ -70,6 +85,15 @@
     <None Remove="Assets\ConfirmDialog.xaml" />
     <None Remove="Assets\DeviceCard.xaml" />
     <None Remove="Assets\FeatureTag.xaml" />
+    <None Remove="Assets\Icons\AppIcon.scale-100.png" />
+    <None Remove="Assets\Icons\AppIcon.scale-125.png" />
+    <None Remove="Assets\Icons\AppIcon.scale-150.png" />
+    <None Remove="Assets\Icons\AppIcon.scale-200.png" />
+    <None Remove="Assets\Icons\AppIcon.scale-400.png" />
+    <None Remove="Assets\Icons\AppIcon.targetsize-16_altform-lightunplated.png" />
+    <None Remove="Assets\Icons\AppIcon.targetsize-32_altform-lightunplated.png" />
+    <None Remove="Assets\Icons\AppIcon.targetsize-32_altform-unplated.png" />
+    <None Remove="Assets\Icons\AppIcon.targetsize-48_altform-lightunplated.png" />
     <None Remove="Assets\LoginDialog.xaml" />
     <None Remove="Assets\TailscaleIcon.xaml" />
     <None Remove="Views\Accounts.xaml" />
@@ -121,6 +145,9 @@
     </Content>
     <Content Update="Assets\Platforms\Windows.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Icons\Tailscale-AppIcon.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
     <Content Update="Assets\Windows.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -174,10 +201,6 @@
     <Page Update="Assets\ConfirmDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <None Update="Assets\Splash\Tailscale-AppIcon.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
   </ItemGroup>
 
   <!--

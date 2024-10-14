@@ -212,11 +212,6 @@ internal static class API
         return PATCH<Types.Prefs, Types.Prefs>("/localapi/v0/prefs", prefs);
     }
 
-    public static void UpdatePrefs(dynamic prefs)
-    {
-        PATCH<object, object>("/localapi/v0/prefs", prefs);
-    }
-
     public static void CheckPrefs(Types.Prefs prefs)
     {
         POST<string, Types.Prefs>("/localapi/v0/check-prefs", prefs);
