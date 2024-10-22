@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 
@@ -49,12 +50,11 @@ public sealed partial class AppSkeleton : Page, INotifyPropertyChanged
                 DispatcherQueue.TryEnqueue(() => UpdateWarnings(warnings));
             }
         };
+    }
 
-        Loaded += (sender, e) =>
-        {
-            var window = Core.Windowing.GetCurrentWindow(this);
-            window.SetTitleBar(AppTitleBar);
-        };
+    private void Page_Loaded(object sender, RoutedEventArgs e)
+    {
+        App.MainWindow.SetTitleBar(AppTitleBar);
     }
 
     private void OnNavigate(NavigationView sender, NavigationViewSelectionChangedEventArgs args)

@@ -1,0 +1,27 @@
+<UserControl
+    x:Class="TailscaleClient.Views.TrayMenu"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:TailscaleClient.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:tb="using:H.NotifyIcon"
+    mc:Ignorable="d">
+    <tb:TaskbarIcon
+        x:Name="TrayIcon"
+        ContextMenuMode="SecondWindow"
+        DoubleClickCommand="{x:Bind ShowWindowCommand, Mode=OneTime}"
+        IconSource="ms-appx:///Assets/Icons/AppIconBase-Light.ico"
+        MenuActivation="RightClick"
+        NoLeftClickDelay="True"
+        ToolTipService.ToolTip="{x:Bind AppDisplayName, Mode=OneTime}"
+        ToolTipText="{x:Bind AppDisplayName, Mode=OneTime}">
+        <tb:TaskbarIcon.ContextFlyout>
+            <MenuFlyout>
+                <MenuFlyoutItem Command="{x:Bind ShowWindowCommand}" Text="Dashboard" />
+                <MenuFlyoutSeparator />
+                <MenuFlyoutItem Command="{x:Bind ExitAppCommand}" Text="Exit" />
+            </MenuFlyout>
+        </tb:TaskbarIcon.ContextFlyout>
+    </tb:TaskbarIcon>
+</UserControl>

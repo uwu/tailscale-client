@@ -96,17 +96,22 @@
     <None Remove="Assets\Icons\AppIcon.targetsize-48_altform-lightunplated.png" />
     <None Remove="Assets\LoginDialog.xaml" />
     <None Remove="Assets\TailscaleIcon.xaml" />
+    <None Remove="MainWindow.xaml" />
     <None Remove="Views\Accounts.xaml" />
     <None Remove="Views\AppSkeleton.xaml" />
     <None Remove="Views\Error.xaml" />
     <None Remove="Views\Home.xaml" />
     <None Remove="Views\Settings.xaml" />
+    <None Remove="Views\TrayMenu.xaml" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
+    <PackageReference Include="H.NotifyIcon.WinUI" Version="2.1.4" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240923002" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
     <PackageReference Include="QRCoder" Version="1.6.0" />
+    <PackageReference Include="WinUIEx" Version="2.4.2" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
@@ -193,6 +198,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Misc\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\TrayMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Assets\LoginDialog.xaml">
