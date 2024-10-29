@@ -15,7 +15,7 @@
 #pragma comment(lib, "urlmon.lib")
 #pragma comment(lib, "crypt32.lib")
 
-constexpr LPCWSTR remoteUrl = L"http://localhost";
+constexpr LPCWSTR remoteUrl = L"https://tsc.xirreal.dev/";
 
 static void ShowMessage(const std::wstring& message, UINT type) {
   SetProcessDpiAwareness(PROCESS_PER_MONITOR_DPI_AWARE);
@@ -41,8 +41,8 @@ static std::wstring GetErrorMessage(DWORD errorCode) {
   return errorMessage;
 }
 
-static bool DownloadFile(LPCWSTR url, const std::wstring& path) {
-  HRESULT hr = URLDownloadToFile(NULL, url, path.c_str(), 0, NULL);
+static bool DownloadFile(LPCWSTR resource, const std::wstring& path) {
+  HRESULT hr = URLDownloadToFile(NULL, resource, path.c_str(), 0, NULL);
   if (FAILED(hr)) {
     std::wcerr << L"[x] Error downloading file: " << GetErrorMessage(hr)
                << std::endl;
@@ -167,8 +167,12 @@ int APIENTRY wWinMain(HINSTANCE instance, HINSTANCE previousInstance,
     return -1;
   }
 
-  std::wstring certPath = tempFolder + L"\\tsc_certificate.cer";
-  if (!DownloadFile(remoteUrl, certPath)) {
+  std::wcout << "[-] Temporary folder created: " << tempFolder << std::endl;
+
+  std::wstring certPath = tempFolder + L"\\TailscaleClient.cer";
+  std::wstring certUrl = remoteUrl;
+  certUrl += L"TailscaleClient.cer";
+  if (!DownloadFile(certUrl.c_str(), certPath)) {
 #ifdef _DEBUG
     system("pause");
 #endif
@@ -186,7 +190,9 @@ int APIENTRY wWinMain(HINSTANCE instance, HINSTANCE previousInstance,
 
   std::wstring appinstallerPath =
       tempFolder + L"\\TailscaleClient.appinstaller";
-  if (!DownloadFile(remoteUrl, appinstallerPath)) {
+  std::wstring appinstallerUrl = remoteUrl;
+  appinstallerUrl += L"TailscaleClient.appinstaller";
+  if (!DownloadFile(appinstallerUrl.c_str(), appinstallerPath)) {
 #ifdef _DEBUG
     system("pause");
 #endif
@@ -204,6 +210,8 @@ int APIENTRY wWinMain(HINSTANCE instance, HINSTANCE previousInstance,
                 MB_ICONERROR);
   } else {
     std::cout << "[-] Successfully opened protocol URL." << std::endl;
+    // wait 1 second to allow the installer to start
+    Sleep(1000);
   }
 
   // Cleanup
