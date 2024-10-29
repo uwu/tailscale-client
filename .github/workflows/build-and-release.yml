@@ -1,0 +1,55 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - actions-testing
+
+jobs:
+  build:
+    name: Build Package
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.x"
+
+      - name: Set up MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Install windows 10 SDK
+        uses: GuillaumeFalourd/setup-windows10-sdk-action@v2
+        with:
+          sdk-version: '22000'
+
+      - name: Add Win10 SDK to PATH
+        run: |
+          Add-Content $env:GITHUB_PATH "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22000.0\x64"
+
+      - name: Install code signing certificate
+        env:
+          base64Pfx: ${{ secrets.PFX_B64 }}
+          password: ${{ secrets.PFX_PASS }}
+        run: |
+          $securePassword = ConvertTo-SecureString -String $env:password -AsPlainText -Force
+          $pfxBytes = [System.Convert]::FromBase64String($env:base64Pfx)
+          $tempPfxPath = [System.IO.Path]::GetTempFileName()
+          [System.IO.File]::WriteAllBytes($tempPfxPath, $pfxBytes)
+          Import-PfxCertificate -FilePath $tempPfxPath -CertStoreLocation Cert:\CurrentUser\My -Password $securePassword
+
+      - name: Run package script
+        shell: pwsh
+        run: |
+          ./package.ps1
+          mkdir -Force dist
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
