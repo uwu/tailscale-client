@@ -8,14 +8,14 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="xirreal.SenkoClient"
+    Name="xirreal.TailscaleClient"
     Publisher="CN=780F1371-8BE2-4A0E-A4FB-310D359D361F"
-    Version="1.2.0.0" />
+    Version="1.1.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="9e756f67-6d0d-4171-a5c1-d5bc42c973ec" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>Senko Client</DisplayName>
+    <DisplayName>Tailscale Client</DisplayName>
     <PublisherDisplayName>xirreal</PublisherDisplayName>
     <Logo>Assets\Icons\AppIcon.png</Logo>
   </Properties>
@@ -33,7 +33,7 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-            DisplayName="Senko Client"
+            DisplayName="Tailscale Client"
             Description="Modern FluentUI Tailscale Client packed with features."
 		    Square150x150Logo="Assets\Icons\AppIcon.png" 
 		    BackgroundColor="transparent"  Square44x44Logo="Assets\Icons\AppIcon.png"

@@ -20,7 +20,7 @@
     <AppxBundle>Always</AppxBundle>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <IsPublishable>True</IsPublishable>
-    <Title>Senko Client</Title>
+    <Title>Tailscale Client</Title>
     <PackageIcon>Tailscale-AppIcon.png</PackageIcon>
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
     <StartupObject>TailscaleClient.Program</StartupObject>

@@ -1,10 +1,8 @@
-# Senko Client (Tailscale Client)
+# Tailscale Client
 A modern, WinUI3-based Tailscale client for Windows.
 
 This project was born out of wanting to mess around with WinUI3, and the fact that the Tailscale Windows client looks... not great compared to MacOS.
 It aims to provide a modern, clean, and feature-rich Tailscale client for Windows while being fully open source, unlike the official one.
-
-If you're wondering about the name, it's because Microsoft won't let me use "Tailscale" in the name of the app, and this one is kinda cute.
 
 > [!IMPORTANT]  
 > Not all features (even somewhat basic ones!) are implemented at this time. This is a work in progress.

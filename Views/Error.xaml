@@ -29,7 +29,7 @@
                 Margin="12,0,0,0"
                 VerticalAlignment="Center"
                 Style="{StaticResource CaptionTextBlockStyle}"
-                Text="Senko Client for Tailscale" />
+                Text="Tailscale Client" />
             </StackPanel>
         </Border>
         <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">

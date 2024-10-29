@@ -5,7 +5,7 @@ namespace TailscaleClient;
 
 public static class Constants
 {
-    public const string AppDisplayName = "Senko Client for Tailscale";
+    public const string AppDisplayName = "Tailscale";
 
     public readonly static string AppIconLightAbsolutePath = Path.Combine(AppContext.BaseDirectory, "Assets/Icons/AppIconBase-Light.ico");
 
