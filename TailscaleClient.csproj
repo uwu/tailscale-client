@@ -2,7 +2,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows10.0.22000.0</TargetFramework>
-    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
     <RootNamespace>TailscaleClient</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
 	<Platforms>x64;ARM64</Platforms>
@@ -12,24 +12,28 @@
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <AppxPackageSigningEnabled>False</AppxPackageSigningEnabled>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
-    <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
+    <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Always</AppxBundle>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <IsPublishable>True</IsPublishable>
     <Title>Tailscale Client</Title>
-    <PackageIcon>Tailscale-AppIcon.png</PackageIcon>
+    <PackageIcon>AppIconBase-Dark.png</PackageIcon>
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
     <StartupObject>TailscaleClient.Program</StartupObject>
-    <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
     <WindowsSdkPackageVersion>10.0.22000.38</WindowsSdkPackageVersion>
     <AppxBundlePlatforms>x64|arm64</AppxBundlePlatforms>
     <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
-    <AppxPackageDir>C:\Users\xirreal\Workspace\TailscaleClient\dist\</AppxPackageDir>
     <SelfContained>true</SelfContained>
+    <PackageCertificateThumbprint>9C3E8CCAC08122B756BC98E5559841BE87816AAA</PackageCertificateThumbprint>
+    <AppxPackageSigningTimestampServerUrl>http://timestamp.digicert.com</AppxPackageSigningTimestampServerUrl>
+    <AppInstallerUri>https://tsc.xirreal.dev</AppInstallerUri>
+    <DefaultLanguage>en-us</DefaultLanguage>
+    <AppxPackageDir>C:\Users\xirreal\Workspace\TailscaleClient\Dist</AppxPackageDir>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\AccountCard.xaml" />
@@ -51,9 +55,7 @@
     <Content Remove="Assets\Apple.png" />
     <Content Remove="Assets\ConfirmDialog.xaml" />
     <Content Remove="Assets\ConfirmDialog.xaml.cs" />
-    <Content Remove="Assets\DeviceCard - Copy.xaml.cs" />
     <Content Remove="Assets\DeviceCard.xaml" />
-    <Content Remove="Assets\FeatureTag - Copy.xaml.cs" />
     <Content Remove="Assets\FeatureTag.xaml" />
     <Content Remove="Assets\Icons\AppIcon.altform-lightunplated_targetsize-16.png" />
     <Content Remove="Assets\Icons\AppIcon.altform-lightunplated_targetsize-24.png" />
@@ -71,10 +73,8 @@
     <Content Remove="Assets\Icons\AppIcon.targetsize-32.png" />
     <Content Remove="Assets\Icons\AppIcon.targetsize-48.png" />
     <Content Remove="Assets\Linux.png" />
-    <Content Remove="Assets\LoginDialog - Copy.xaml.cs" />
     <Content Remove="Assets\LoginDialog.xaml" />
     <Content Remove="Assets\LoginDialog.xaml.cs" />
-    <Content Remove="Assets\TailscaleIcon - Copy.xaml.cs" />
     <Content Remove="Assets\TailscaleIcon.xaml" />
     <Content Remove="Assets\TailscaleIcon.xaml.cs" />
     <Content Remove="Assets\Unknown.png" />
@@ -109,7 +109,7 @@
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
     <PackageReference Include="H.NotifyIcon.WinUI" Version="2.1.4" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240923002" />
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
     <PackageReference Include="QRCoder" Version="1.6.0" />
     <PackageReference Include="WinUIEx" Version="2.4.2" />
     <Manifest Include="$(ApplicationManifest)" />
@@ -128,6 +128,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Assets\Apple.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Icons\AppIconBase-Dark.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Assets\Linux.svg">
@@ -198,6 +201,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Misc\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Assets\Icons\AppIconBase-Dark.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\TrayMenu.xaml">

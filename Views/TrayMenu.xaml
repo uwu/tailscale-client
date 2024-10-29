@@ -11,7 +11,7 @@
         x:Name="TrayIcon"
         ContextMenuMode="SecondWindow"
         DoubleClickCommand="{x:Bind ShowWindowCommand, Mode=OneTime}"
-        IconSource="ms-appx:///Assets/Icons/AppIconBase-Light.ico"
+        IconSource="ms-appx:///Assets/Icons/AppIconBase-Dark.ico"
         MenuActivation="RightClick"
         NoLeftClickDelay="True"
         ToolTipService.ToolTip="{x:Bind AppDisplayName, Mode=OneTime}"
