@@ -12,9 +12,16 @@ dotnet restore $projectFile
 dotnet msbuild $projectFile -t:Rebuild -p:Platform=x64 -p:Configuration=Release -p:OutDir="$outputDir/x64/"
 dotnet msbuild $projectFile -t:Rebuild -p:Platform=arm64 -p:Configuration=Release -p:OutDir="$outputDir/arm64/"
 
+$appxManifest = Join-Path -Path $outputDir -ChildPath "x64/AppxManifest.xml"
+[xml]$manifestXml = Get-Content $appxManifest
+$identityNode = $manifestXml.Package.Identity
+$publisher = $identityNode.Publisher
+$version = $identityNode.Version
+$appName = $identityNode.Name
+
 makeappx.exe pack /h SHA256 /d "./Dist/x64" /o /p "./Dist/msix/TailscaleClient_x64.msix"
 makeappx.exe pack /h SHA256 /d "./Dist/arm64" /o /p "./Dist/msix/TailscaleClient_arm64.msix"
-makeappx.exe bundle /d "./Dist/msix" /p "./Dist/TailscaleClient.msixbundle"
+makeappx.exe bundle /bv $version /d "./Dist/msix" /p "./Dist/TailscaleClient.msixbundle"
 signtool.exe sign /fd SHA256 /sha1 "$thumbprint" /t http://timestamp.digicert.com "./Dist/TailscaleClient.msixbundle"
 
 msbuild /t:TailscaleClientInstaller /p:Configuration=Release /p:OutDir="../Dist/"
@@ -23,13 +30,6 @@ Remove-Item -Path "$outputDir/TailscaleClientInstaller.pdb" -Force
 $cert = Get-ChildItem -Path Cert:/CurrentUser/My | Where-Object { $_.Thumbprint -eq $thumbprint }
 $certPath = "$outputDir/TailscaleClient.cer"
 Export-Certificate -Cert $cert -FilePath $certPath
-
-$appxManifest = Join-Path -Path $outputDir -ChildPath "x64/AppxManifest.xml"
-[xml]$manifestXml = Get-Content $appxManifest
-$identityNode = $manifestXml.Package.Identity
-$publisher = $identityNode.Publisher
-$version = $identityNode.Version
-$appName = $identityNode.Name
 
 Write-Output "Creating .appinstaller file..."
 $appInstallerFile = "$outputDir/TailscaleClient.appinstaller"
