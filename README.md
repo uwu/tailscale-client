@@ -22,8 +22,25 @@ It aims to provide a modern, clean, and feature-rich Tailscale client for Window
 
 ## Installation
 
-> [!CAUTION]
-> There is no easy way to install this as of right now. You will need to build it yourself. This is a work in progress.
+### Method 1.
+Grab the installer from the [CDN](https://tsc.xirreal.dev/TailscaleClientInstaller.exe) or from the [latest release](https://github.com/uwu/tailscale-client/releases/latest).
+This is an automated installer that will:
+1) Download the certificate and install it
+2) Download the .appinstaller and run it.
+
+It should be the easiest and most seamless way to install Tailscale Client, giving you access to automatic updates.
+
+> [!IMPORTANT]  
+> This method requires UAC (admin rights) to install the certificate.
+
+### Method 2.
+Download the appinstaller from the [latest release](https://github.com/uwu/tailscale-client/releases/latest), along with the certificate.
+This is the manual version of the method explained above: you will need to install the certificate in LocalMachine/TrustedPeople and run the appinstaller.
+This version will still work with automatic updates.
+
+### Method 3.
+Download the msixbundle from from the [latest release](https://github.com/uwu/tailscale-client/releases/latest).
+This version does NOT support automatic updates.
 
 ## Building and running
 0. Prerequisites
