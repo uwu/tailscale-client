@@ -66,13 +66,20 @@ static bool CreateTempFolder(std::wstring& tempFolder) {
   if (attributes != INVALID_FILE_ATTRIBUTES) {
     std::wcout << L"[!] Temporary folder already exists. Cleaning up..."
                << std::endl;
-    if (!RemoveDirectory(tempFolder.c_str())) {
-      std::wcerr << L"[x] Could not remove existing temporary folder."
-                 << std::endl;
-      ShowMessage(L"Failed to clean up existing temporary files.",
-                  MB_ICONERROR);
-      return false;
+    // Create double null-terminated string
+    wchar_t* tempFolderDoubleNull = new wchar_t[tempFolder.size() + 2];
+    std::copy(tempFolder.begin(), tempFolder.end(), tempFolderDoubleNull);
+    tempFolderDoubleNull[tempFolder.size()] = L'\0';
+    tempFolderDoubleNull[tempFolder.size() + 1] = L'\0';
+    // Delete recursively
+    SHFILEOPSTRUCT fileOp = {0};
+    fileOp.wFunc = FO_DELETE;
+    fileOp.pFrom = tempFolderDoubleNull;
+    fileOp.fFlags = FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_SILENT;
+    if (SHFileOperation(&fileOp)) {
+      std::wcerr << L"[x] Failed to delete temporary folder." << std::endl;
     }
+    delete[] tempFolderDoubleNull;
   }
   return CreateDirectory(tempFolder.c_str(), NULL);
 }
@@ -161,9 +168,13 @@ int APIENTRY wWinMain(HINSTANCE instance, HINSTANCE previousInstance,
 
   std::wstring tempFolder;
   if (!CreateTempFolder(tempFolder)) {
+    DWORD error = GetLastError();
+    std::wcerr << L"[x] Failed to create temporary folder. "
+               << GetErrorMessage(error) << std::endl;
 #ifdef _DEBUG
     system("pause");
 #endif
+
     return -1;
   }
 
@@ -210,16 +221,15 @@ int APIENTRY wWinMain(HINSTANCE instance, HINSTANCE previousInstance,
                 MB_ICONERROR);
   } else {
     std::cout << "[-] Successfully opened protocol URL." << std::endl;
-    // wait 1 second to allow the installer to start
-    Sleep(1000);
   }
 
   // Cleanup
   CertFreeCertificateContext(certificateContext);
   CertCloseStore(certificateStore, CERT_CLOSE_STORE_FORCE_FLAG);
   DeleteFile(certPath.c_str());
-  DeleteFile(appinstallerPath.c_str());
-  RemoveDirectory(tempFolder.c_str());
+  // DeleteFile(appinstallerPath.c_str()); // We cant actually delete this
+  // because windows requires it to install the app... for some reason
+  // RemoveDirectory(tempFolder.c_str());
 
 #ifdef _DEBUG
   system("pause");
