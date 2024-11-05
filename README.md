@@ -4,7 +4,7 @@ A modern, WinUI3-based Tailscale client for Windows.
 This project was born out of wanting to mess around with WinUI3, and the fact that the Tailscale Windows client looks... not great compared to MacOS.
 It aims to provide a modern, clean, and feature-rich Tailscale client for Windows while being fully open source, unlike the official one.
 
-> [!IMPORTANT]  
+> [!IMPORTANT]
 > Not all features (even somewhat basic ones!) are implemented at this time. This is a work in progress.
 
 > [!WARNING]
@@ -20,6 +20,14 @@ It aims to provide a modern, clean, and feature-rich Tailscale client for Window
 - [ ] Settings (Run unattended, allow Tailscale DNS, accept subnets)
 - [ ] Taildrop
 
+### Screenshots!
+
+Login flow:
+![Login](https://raw.githubusercontent.com/uwu/tailscale-client/refs/heads/main/Publishing/login.png)
+
+Main page:
+![Netmap](https://raw.githubusercontent.com/uwu/tailscale-client/refs/heads/main/Publishing/preview.png)
+
 ## Installation
 
 ### Method 1.
@@ -30,7 +38,7 @@ This is an automated installer that will:
 
 It should be the easiest and most seamless way to install Tailscale Client, giving you access to automatic updates.
 
-> [!IMPORTANT]  
+> [!IMPORTANT]
 > This method requires UAC (admin rights) to install the certificate.
 
 ### Method 2.
