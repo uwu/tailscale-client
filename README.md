@@ -20,13 +20,12 @@ It aims to provide a modern, clean, and feature-rich Tailscale client for Window
 - [ ] Settings (Run unattended, allow Tailscale DNS, accept subnets)
 - [ ] Taildrop
 
-### Screenshots!
+### Preview
 
-Login flow:
-![Login](https://raw.githubusercontent.com/uwu/tailscale-client/refs/heads/main/Publishing/login.png)
-
-Main page:
-![Netmap](https://raw.githubusercontent.com/uwu/tailscale-client/refs/heads/main/Publishing/preview.png)
+<p style="display:flex;justify-content:center;column-gap:8%;">
+  <img style="text-align:center" src="https://raw.githubusercontent.com/uwu/tailscale-client/refs/heads/main/Publishing/login.png" width="30%" />
+  <img style="text-alignt:center" src="https://raw.githubusercontent.com/uwu/tailscale-client/refs/heads/main/Publishing/preview.png" width="30%" />
+</p>
 
 ## Installation
 
