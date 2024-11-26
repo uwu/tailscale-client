@@ -186,6 +186,11 @@ internal static class API
     {
         return GET<Types.Prefs>("/localapi/v0/prefs");
     }
+    public static Types.Prefs EditPrefs(Types.Prefs prefs)
+    {
+        // TODO: Only patch changed prefs like Tailscale does
+        return PATCH<Types.Prefs, Types.Prefs>("/localapi/v0/prefs", prefs);
+    }
 
     public static void SwitchEmptyProfile()
     {
