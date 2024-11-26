@@ -8,12 +8,30 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-        <InfoBar x:Name="InfoBar" IsOpen="True" Severity="Informational" IsClosable="False">
-            <StackPanel Padding="32,32,32,32">
-                <TextBlock HorizontalAlignment="Center" Text="There's nothing here yet..."></TextBlock>
-                <HyperlinkButton NavigateUri="https://github.com/uwu/tailscale-client/issues" Content="Have a suggestion? Let us know."></HyperlinkButton>
-            </StackPanel>
-        </InfoBar>
+    <StackPanel Margin="14,4">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Allow incoming connections" VerticalAlignment="Center"/>
+            <ToggleSwitch Grid.Column="1" IsOn="{x:Bind IncomingTrafficEnabled, Mode=TwoWay}" Toggled="UpdatePrefs" FlowDirection="RightToLeft"/>
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Use Tailscale DNS configuration" VerticalAlignment="Center"/>
+            <ToggleSwitch Grid.Column="1" IsOn="{x:Bind TailscaleDnsEnabled, Mode=TwoWay}" Toggled="UpdatePrefs" FlowDirection="RightToLeft"/>
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Accept advertised subnet routes" VerticalAlignment="Center"/>
+            <ToggleSwitch Grid.Column="1" IsOn="{x:Bind SubnetRoutesEnabled, Mode=TwoWay}" Toggled="UpdatePrefs" FlowDirection="RightToLeft"/>
+        </Grid>
     </StackPanel>
 </Page>
