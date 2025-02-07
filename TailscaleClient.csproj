@@ -36,6 +36,17 @@
     <AppxPackageDir>C:\Users\xirreal\Workspace\TailscaleClient\Dist</AppxPackageDir>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="codegen\**" />
+    <Compile Remove="TailscaleClientInstaller\**" />
+    <EmbeddedResource Remove="codegen\**" />
+    <EmbeddedResource Remove="TailscaleClientInstaller\**" />
+    <None Remove="codegen\**" />
+    <None Remove="MaskedPrefsGenerator\**" />
+    <None Remove="TailscaleClientInstaller\**" />
+    <Page Remove="codegen\**" />
+    <Page Remove="TailscaleClientInstaller\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Remove="Assets\AccountCard.xaml" />
     <Content Remove="Assets\Android.png" />
     <Content Remove="Assets\AppIcon.altform-lightunplated_targetsize-16.png" />
@@ -57,6 +68,8 @@
     <Content Remove="Assets\ConfirmDialog.xaml.cs" />
     <Content Remove="Assets\DeviceCard.xaml" />
     <Content Remove="Assets\FeatureTag.xaml" />
+    <Content Remove="Assets\FlippedSwitch.xaml" />
+    <Content Remove="Assets\FlippedSwitch.xaml.cs" />
     <Content Remove="Assets\Icons\AppIcon.altform-lightunplated_targetsize-16.png" />
     <Content Remove="Assets\Icons\AppIcon.altform-lightunplated_targetsize-24.png" />
     <Content Remove="Assets\Icons\AppIcon.altform-lightunplated_targetsize-256.png" />
@@ -85,6 +98,7 @@
     <None Remove="Assets\ConfirmDialog.xaml" />
     <None Remove="Assets\DeviceCard.xaml" />
     <None Remove="Assets\FeatureTag.xaml" />
+    <None Remove="Assets\FlippedSwitch.xaml" />
     <None Remove="Assets\Icons\AppIcon.scale-100.png" />
     <None Remove="Assets\Icons\AppIcon.scale-125.png" />
     <None Remove="Assets\Icons\AppIcon.scale-150.png" />
@@ -106,12 +120,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
-    <PackageReference Include="H.NotifyIcon.WinUI" Version="2.1.4" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240923002" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="H.NotifyIcon.WinUI" Version="2.2.0" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.250108002" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
     <PackageReference Include="QRCoder" Version="1.6.0" />
-    <PackageReference Include="WinUIEx" Version="2.4.2" />
+    <PackageReference Include="WinUIEx" Version="2.5.1" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
@@ -203,6 +217,9 @@
     <Folder Include="Assets\Misc\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Assets\FlippedSwitch.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <None Update="Assets\Icons\AppIconBase-Dark.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
@@ -247,4 +264,15 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <DebugType>portable</DebugType>
   </PropertyGroup>
+  <ItemGroup>
+    <PRIResource Remove="TailscaleClientInstaller\**" />
+  </ItemGroup>
+  <ItemGroup>
+	<PRIResource Remove="codegen\**" />
+  </ItemGroup>
+
+  <!--<PropertyGroup>
+	<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+	<CompilerGeneratedFilesOutputPath>codegen</CompilerGeneratedFilesOutputPath>
+  </PropertyGroup>-->
 </Project>

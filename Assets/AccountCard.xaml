@@ -34,8 +34,8 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                <TextBlock Text="{x:Bind UserName, Mode=OneWay}" FontSize="16" FontWeight="Bold" VerticalAlignment="Center"/>
-                <TextBlock Text="{x:Bind Tailnet, Mode=OneWay}" FontSize="13" VerticalAlignment="Center"/>
+                <TextBlock Text="{x:Bind UserName, Mode=OneWay}" Style="{StaticResource BodyStrongTextBlockStyle}" VerticalAlignment="Center"/>
+                <TextBlock Foreground="{StaticResource TextFillColorSecondary}" Text="{x:Bind Tailnet, Mode=OneWay}" Style="{StaticResource CaptionTextBlockStyle}" VerticalAlignment="Center"/>
             </StackPanel>
             <Ellipse Height="36" Width="36" HorizontalAlignment="Right" Grid.Column="1">
                 <Ellipse.Fill>

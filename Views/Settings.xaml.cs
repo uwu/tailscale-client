@@ -1,7 +1,10 @@
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using TailscaleClient.Assets;
 using TailscaleClient.Core;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -13,11 +16,12 @@ namespace TailscaleClient.Views;
 /// </summary>
 public sealed partial class Settings : Page
 {
-    private Core.Types.Prefs _prefs = null;
+    private Types.MaskedPrefs _prefs = null;
 
     public bool IncomingTrafficEnabled = false;
     public bool TailscaleDnsEnabled = false;
     public bool SubnetRoutesEnabled = false;
+    public string ExitNode = "";
 
     public void UpdateUI()
     {
@@ -25,6 +29,7 @@ public sealed partial class Settings : Page
         IncomingTrafficEnabled = !_prefs.ShieldsUp;
         TailscaleDnsEnabled = _prefs.CorpDNS;
         SubnetRoutesEnabled = _prefs.RouteAll;
+        ExitNode = _prefs.ExitNodeID;
     }
 
     public Settings()
@@ -46,11 +51,43 @@ public sealed partial class Settings : Page
         UpdateUI();
     }
 
-    private void UpdatePrefs(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private void UpdatePrefsShields(object _sender, RoutedEventArgs e)
     {
-        _prefs.ShieldsUp = !IncomingTrafficEnabled;
-        _prefs.CorpDNS = TailscaleDnsEnabled;
-        _prefs.RouteAll = SubnetRoutesEnabled;
-        API.EditPrefs(_prefs);
+        var sender = _sender as ToggleSwitch;
+        if(_prefs.ShieldsUp == !sender.IsOn)
+        {
+            return;
+        }
+
+        _prefs.ShieldsUp = !sender.IsOn;
+
+        API.UpdatePrefs(_prefs);
+    }
+
+    private void UpdatePrefsDns(object _sender, RoutedEventArgs e)
+    {
+        var sender = _sender as ToggleSwitch;
+        if (_prefs.CorpDNS == sender.IsOn)
+        {
+            return;
+        }
+        _prefs.CorpDNS = sender.IsOn;
+        API.UpdatePrefs(_prefs);
+    }
+
+    private void UpdatePrefsRoutes(object _sender, RoutedEventArgs e)
+    {
+        var sender = _sender as ToggleSwitch;
+        if (_prefs.RouteAll == sender.IsOn)
+        {
+            return;
+        }
+        _prefs.RouteAll = sender.IsOn;
+        API.UpdatePrefs(_prefs);
+    }
+
+    private void ExitNodeChanged(object sender, SelectionChangedEventArgs e)
+    {
+
     }
 }
