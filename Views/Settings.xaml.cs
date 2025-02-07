@@ -37,6 +37,7 @@ public sealed partial class Settings : Page, INotifyPropertyChanged
     }
 
     private List<string> _peerIds = [];
+    private string _recommenddedNode = "";
 
     public void UpdateExitNodeList(Types.SuggestedExitNode suggestedPeer, List<Types.PeerInfo> peers)
     {
@@ -90,13 +91,15 @@ public sealed partial class Settings : Page, INotifyPropertyChanged
             Debug.WriteLine(e);
         }
 
-        var peers = API.GetStatus().Peer.Select(x => x.Value).Where(x => x.ExitNodeOption).ToList();
+        var status = API.GetStatus();
+        var peers = (status.Peer ?? []).Select(x => x.Value).Where(x => x.ExitNodeOption).ToList();
         peers.Sort((x, y) => x.ID == suggestedNode.ID ? -1 : y.ID == suggestedNode.ID ? 1 : 0);
 
         var peerIds = peers.Select(x => x.ID).ToList();
-        if(!peerIds.All(x => _peerIds.Contains(x)))
+        if(!peerIds.All(x => _peerIds.Contains(x)) || (suggestedNode.ID != "UNAVAILABLE" && suggestedNode.ID != _recommenddedNode))
         {
             _peerIds = peerIds;
+            _recommenddedNode = suggestedNode.ID;
             UpdateExitNodeList(suggestedNode, peers);
         }
     }
