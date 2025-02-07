@@ -17,13 +17,15 @@
 
 constexpr LPCWSTR remoteUrl = L"https://tsc.xirreal.dev/";
 
-static void ShowMessage(const std::wstring& message, UINT type) {
+static void ShowMessage(const std::wstring &message, UINT type)
+{
   SetProcessDpiAwareness(PROCESS_PER_MONITOR_DPI_AWARE);
   ShellMessageBoxW(NULL, NULL, message.c_str(), L"Tailscale Client Installer",
                    MB_OK | type);
 }
 
-static std::wstring GetErrorMessage(DWORD errorCode) {
+static std::wstring GetErrorMessage(DWORD errorCode)
+{
   LPVOID messageBuffer = nullptr;
   DWORD formatFlags = FORMAT_MESSAGE_ALLOCATE_BUFFER |
                       FORMAT_MESSAGE_FROM_SYSTEM |
@@ -32,18 +34,23 @@ static std::wstring GetErrorMessage(DWORD errorCode) {
   std::wstring errorMessage;
 
   if (FormatMessageW(formatFlags, NULL, errorCode, languageId,
-                     (LPWSTR)&messageBuffer, 0, NULL)) {
+                     (LPWSTR)&messageBuffer, 0, NULL))
+  {
     errorMessage = (LPWSTR)messageBuffer;
     LocalFree(messageBuffer);
-  } else {
+  }
+  else
+  {
     errorMessage = L"Unknown error.";
   }
   return errorMessage;
 }
 
-static bool DownloadFile(LPCWSTR resource, const std::wstring& path) {
+static bool DownloadFile(LPCWSTR resource, const std::wstring &path)
+{
   HRESULT hr = URLDownloadToFile(NULL, resource, path.c_str(), 0, NULL);
-  if (FAILED(hr)) {
+  if (FAILED(hr))
+  {
     std::wcerr << L"[x] Error downloading file: " << GetErrorMessage(hr)
                << std::endl;
     ShowMessage(
@@ -55,7 +62,8 @@ static bool DownloadFile(LPCWSTR resource, const std::wstring& path) {
   return true;
 }
 
-static bool CreateTempFolder(std::wstring& tempFolder) {
+static bool CreateTempFolder(std::wstring &tempFolder)
+{
   wchar_t tempPath[MAX_PATH];
   GetTempPath(MAX_PATH, tempPath);
 
@@ -63,21 +71,19 @@ static bool CreateTempFolder(std::wstring& tempFolder) {
   tempFolder += L"TailscaleClientInstaller";
 
   DWORD attributes = GetFileAttributes(tempFolder.c_str());
-  if (attributes != INVALID_FILE_ATTRIBUTES) {
+  if (attributes != INVALID_FILE_ATTRIBUTES)
+  {
     std::wcout << L"[!] Temporary folder already exists. Cleaning up..."
                << std::endl;
-    // Create double null-terminated string
-    wchar_t* tempFolderDoubleNull = new wchar_t[tempFolder.size() + 2];
-    std::copy(tempFolder.begin(), tempFolder.end(), tempFolderDoubleNull);
-    tempFolderDoubleNull[tempFolder.size()] = L'\0';
-    tempFolderDoubleNull[tempFolder.size() + 1] = L'\0';
-    // Delete recursively
-    SHFILEOPSTRUCT fileOp = {0};
-    fileOp.wFunc = FO_DELETE;
-    fileOp.pFrom = tempFolderDoubleNull;
-    fileOp.fFlags = FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_SILENT;
-    if (SHFileOperation(&fileOp)) {
-      std::wcerr << L"[x] Failed to delete temporary folder." << std::endl;
+    std::wstring certPath = tempFolder + L"\\TailscaleClient.cer";
+    std::wstring appinstallerPath = tempFolder + L"\\TailscaleClient.appinstaller";
+    DeleteFile(certPath.c_str());
+    DeleteFile(appinstallerPath.c_str());
+    if (!RemoveDirectory(tempFolder.c_str()))
+    {
+      std::wcerr << L"[x] Could not remove existing temporary folder."
+                 << std::endl;
+      return true;
     }
     delete[] tempFolderDoubleNull;
   }
@@ -85,10 +91,12 @@ static bool CreateTempFolder(std::wstring& tempFolder) {
 }
 
 static bool InstallCertificate(HCERTSTORE certificateStore,
-                               PCCERT_CONTEXT certificateContext) {
+                               PCCERT_CONTEXT certificateContext)
+{
   if (!CertAddCertificateContextToStore(certificateStore, certificateContext,
                                         CERT_STORE_ADD_REPLACE_EXISTING,
-                                        NULL)) {
+                                        NULL))
+  {
     std::cerr << "[x] Failed to add the certificate to the store." << std::endl;
     ShowMessage(
         L"Failed to install the certificate.\n\nPlease report this issue to "
@@ -100,13 +108,15 @@ static bool InstallCertificate(HCERTSTORE certificateStore,
   return true;
 }
 
-static bool SetupCertificate(HCERTSTORE& certificateStore,
-                             PCCERT_CONTEXT& certificateContext,
-                             const std::wstring& certPath) {
+static bool SetupCertificate(HCERTSTORE &certificateStore,
+                             PCCERT_CONTEXT &certificateContext,
+                             const std::wstring &certPath)
+{
   certificateStore =
       CertOpenStore(CERT_STORE_PROV_SYSTEM, 0, NULL,
                     CERT_SYSTEM_STORE_LOCAL_MACHINE, L"TrustedPeople");
-  if (!certificateStore) {
+  if (!certificateStore)
+  {
     std::cerr << "[x] Failed to open Trusted People store." << std::endl;
     ShowMessage(
         L"This installer can only run as administrator.\n\nPlease restart the "
@@ -118,16 +128,18 @@ static bool SetupCertificate(HCERTSTORE& certificateStore,
   // Attempt to load the certificate from file
   HANDLE hFile = CreateFile(certPath.c_str(), GENERIC_READ, FILE_SHARE_READ,
                             NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-  if (hFile == INVALID_HANDLE_VALUE) {
+  if (hFile == INVALID_HANDLE_VALUE)
+  {
     ShowMessage(L"Certificate file missing or inaccessible.", MB_ICONERROR);
     return false;
   }
 
   DWORD fileSize = GetFileSize(hFile, NULL);
-  BYTE* fileBuffer = new BYTE[fileSize];
+  BYTE *fileBuffer = new BYTE[fileSize];
   DWORD bytesRead = 0;
 
-  if (!ReadFile(hFile, fileBuffer, fileSize, &bytesRead, NULL)) {
+  if (!ReadFile(hFile, fileBuffer, fileSize, &bytesRead, NULL))
+  {
     ShowMessage(L"Failed to read certificate file.", MB_ICONERROR);
     delete[] fileBuffer;
     CloseHandle(hFile);
@@ -138,13 +150,15 @@ static bool SetupCertificate(HCERTSTORE& certificateStore,
   delete[] fileBuffer;
   CloseHandle(hFile);
 
-  if (!certificateContext) {
+  if (!certificateContext)
+  {
     ShowMessage(L"Failed to parse the certificate.\n\nPlease contact support.",
                 MB_ICONERROR);
     return false;
   }
 
-  if (!InstallCertificate(certificateStore, certificateContext)) {
+  if (!InstallCertificate(certificateStore, certificateContext))
+  {
     CertFreeCertificateContext(certificateContext);
     CertCloseStore(certificateStore, CERT_CLOSE_STORE_FORCE_FLAG);
     return false;
@@ -154,7 +168,8 @@ static bool SetupCertificate(HCERTSTORE& certificateStore,
 }
 
 int APIENTRY wWinMain(HINSTANCE instance, HINSTANCE previousInstance,
-                      LPWSTR args, int shouldShowCmd) {
+                      LPWSTR args, int shouldShowCmd)
+{
 #ifdef _DEBUG
   AllocConsole();
   AttachConsole(GetCurrentProcessId());
@@ -167,7 +182,8 @@ int APIENTRY wWinMain(HINSTANCE instance, HINSTANCE previousInstance,
             << std::endl;
 
   std::wstring tempFolder;
-  if (!CreateTempFolder(tempFolder)) {
+  if (!CreateTempFolder(tempFolder))
+  {
     DWORD error = GetLastError();
     std::wcerr << L"[x] Failed to create temporary folder. "
                << GetErrorMessage(error) << std::endl;
@@ -183,7 +199,8 @@ int APIENTRY wWinMain(HINSTANCE instance, HINSTANCE previousInstance,
   std::wstring certPath = tempFolder + L"\\TailscaleClient.cer";
   std::wstring certUrl = remoteUrl;
   certUrl += L"TailscaleClient.cer";
-  if (!DownloadFile(certUrl.c_str(), certPath)) {
+  if (!DownloadFile(certUrl.c_str(), certPath))
+  {
 #ifdef _DEBUG
     system("pause");
 #endif
@@ -192,7 +209,8 @@ int APIENTRY wWinMain(HINSTANCE instance, HINSTANCE previousInstance,
 
   HCERTSTORE certificateStore = NULL;
   PCCERT_CONTEXT certificateContext = NULL;
-  if (!SetupCertificate(certificateStore, certificateContext, certPath)) {
+  if (!SetupCertificate(certificateStore, certificateContext, certPath))
+  {
 #ifdef _DEBUG
     system("pause");
 #endif
@@ -203,7 +221,8 @@ int APIENTRY wWinMain(HINSTANCE instance, HINSTANCE previousInstance,
       tempFolder + L"\\TailscaleClient.appinstaller";
   std::wstring appinstallerUrl = remoteUrl;
   appinstallerUrl += L"TailscaleClient.appinstaller";
-  if (!DownloadFile(appinstallerUrl.c_str(), appinstallerPath)) {
+  if (!DownloadFile(appinstallerUrl.c_str(), appinstallerPath))
+  {
 #ifdef _DEBUG
     system("pause");
 #endif
@@ -212,14 +231,17 @@ int APIENTRY wWinMain(HINSTANCE instance, HINSTANCE previousInstance,
 
   HINSTANCE result = ShellExecute(NULL, L"open", appinstallerPath.c_str(), NULL,
                                   NULL, SW_SHOWNORMAL);
-  if ((INT_PTR)result <= 32) {
+  if ((INT_PTR)result <= 32)
+  {
     DWORD error = GetLastError();
     std::cerr << "[x] Failed to open protocol URL." << std::endl;
     std::wcerr << GetErrorMessage(error) << std::endl;
     ShowMessage(L"Something went wrong during installation.\n\n" +
                     GetErrorMessage(error) + L"\n",
                 MB_ICONERROR);
-  } else {
+  }
+  else
+  {
     std::cout << "[-] Successfully opened protocol URL." << std::endl;
   }
 
