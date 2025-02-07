@@ -1,3 +1,5 @@
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Controls;
@@ -5,11 +7,25 @@ using WinUIEx;
 
 namespace TailscaleClient.Views;
 
-[ObservableObject]
-public sealed partial class TrayMenu : UserControl
+public sealed partial class TrayMenu : UserControl, INotifyPropertyChanged
 {
-    [ObservableProperty]
+    public event PropertyChangedEventHandler PropertyChanged;
+    public void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    {
+        this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
     private string _appDisplayName = Constants.AppDisplayName;
+
+    public string AppDisplayName
+    {
+        get => _appDisplayName;
+        set
+        {
+            _appDisplayName = value;
+            OnPropertyChanged();
+        }
+    }
 
     public TrayMenu()
     {

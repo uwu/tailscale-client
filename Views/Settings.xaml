@@ -3,35 +3,89 @@
     x:Class="TailscaleClient.Views.Settings"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:TailscaleClient.Views"
+    xmlns:local="using:TailscaleClient.Assets"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel Margin="14,4">
-        <Grid>
-            <Grid.ColumnDefinitions>
+    <StackPanel Margin="14,8,14,12">
+        <StackPanel
+                Margin="0,0,0,0"
+                CornerRadius="8"
+                Padding="12,4,12,8"
+                BorderThickness="1"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+        >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Exit node" VerticalAlignment="Center"/>
+                <ComboBox Grid.Column="1" MinWidth="120" Margin="0,8,0,8" SelectedIndex="0" SelectionChanged="ExitNodeChanged">
+                    <x:String>Disabled</x:String>
+                    <x:String>Green</x:String>
+                    <x:String>Red</x:String>
+                    <x:String>Yellow</x:String>
+                </ComboBox>
+            </Grid>
+            <TextBlock Foreground="{StaticResource TextFillColorSecondary}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="WrapWholeWords" Text="Exit nodes allow you to route all traffic through a specific device on your Tailnet, and for example allows you to bypass certain network restrictions such as a university blocking certain ports."/>
+            <HyperlinkButton HorizontalAlignment="Right" Margin="0,8,0,4" FontSize="12" Content="Learn more" NavigateUri="https://tailscale.com/kb/1103/exit-nodes"/>
+        </StackPanel>
+        <StackPanel
+            Margin="0,8,0,0"
+            CornerRadius="8"
+            Padding="12,4,12,8"
+            BorderThickness="1"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+        >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Allow incoming connections" VerticalAlignment="Center"/>
+                <local:FlippedSwitch Grid.Column="1" IsOn="{x:Bind IncomingTrafficEnabled, Mode=TwoWay}" Toggled="UpdatePrefsShields" />
+            </Grid>
+            <TextBlock Margin="0,0,0,4" Foreground="{StaticResource TextFillColorSecondary}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="WrapWholeWords" Text="When disabled, your device will still be visible and allowed to send traffic, but won't accept any connections over Tailscale, including pings."/>
+        </StackPanel>
+        <StackPanel
+            Margin="0,8,0,0"
+            CornerRadius="8"
+            Padding="12,4,12,8"
+            BorderThickness="1"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+        >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Use Tailscale DNS configuration" VerticalAlignment="Center"/>
+                <local:FlippedSwitch Grid.Column="1" IsOn="{x:Bind TailscaleDnsEnabled, Mode=TwoWay}" Toggled="UpdatePrefsDns"/>
+            </Grid>
+            <TextBlock Margin="0,0,0,4" Foreground="{StaticResource TextFillColorSecondary}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="WrapWholeWords" Text="If an Admin has configured DNS settings for your tailnet, including MagicDNS or split DNS, then DNS queries for devices in your Tailscale network will respect those settings."/>
+        </StackPanel>
+        <StackPanel
+            Margin="0,8,0,0"
+            CornerRadius="8"
+            Padding="12,4,12,8"
+            BorderThickness="1"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+        >
+            <Grid>
+                <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Text="Allow incoming connections" VerticalAlignment="Center"/>
-            <ToggleSwitch Grid.Column="1" IsOn="{x:Bind IncomingTrafficEnabled, Mode=TwoWay}" Toggled="UpdatePrefs" FlowDirection="RightToLeft"/>
-        </Grid>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Text="Use Tailscale DNS configuration" VerticalAlignment="Center"/>
-            <ToggleSwitch Grid.Column="1" IsOn="{x:Bind TailscaleDnsEnabled, Mode=TwoWay}" Toggled="UpdatePrefs" FlowDirection="RightToLeft"/>
-        </Grid>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Text="Accept advertised subnet routes" VerticalAlignment="Center"/>
-            <ToggleSwitch Grid.Column="1" IsOn="{x:Bind SubnetRoutesEnabled, Mode=TwoWay}" Toggled="UpdatePrefs" FlowDirection="RightToLeft"/>
-        </Grid>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Accept advertised subnet routes" VerticalAlignment="Center"/>
+                <local:FlippedSwitch Grid.Column="1" IsOn="{x:Bind SubnetRoutesEnabled, Mode=TwoWay}" Toggled="UpdatePrefsRoutes"/>
+            </Grid>
+            <TextBlock Margin="0,0,0,4" Foreground="{StaticResource TextFillColorSecondary}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="WrapWholeWords" Text="If an Admin has created subnet routes for your tailnet, then Tailscale will route your device's traffic for the advertised subnets to the appropriate subnet router."/>
+        </StackPanel>
     </StackPanel>
 </Page>

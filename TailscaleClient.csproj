@@ -37,62 +37,96 @@
     <ApplicationIcon>Assets\Icons\AppIconBase-Dark.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Content Remove="Assets\Icons\Dark\AppIcon.altform-lightunplated_targetsize-16.png" />
-    <Content Remove="Assets\Icons\Dark\AppIcon.altform-lightunplated_targetsize-24.png" />
-    <Content Remove="Assets\Icons\Dark\AppIcon.altform-lightunplated_targetsize-256.png" />
-    <Content Remove="Assets\Icons\Dark\AppIcon.altform-lightunplated_targetsize-32.png" />
-    <Content Remove="Assets\Icons\Dark\AppIcon.altform-lightunplated_targetsize-48.png" />
-    <Content Remove="Assets\Icons\Dark\AppIcon.altform-unplated_targetsize-16.png" />
-    <Content Remove="Assets\Icons\Dark\AppIcon.altform-unplated_targetsize-24.png" />
-    <Content Remove="Assets\Icons\Dark\AppIcon.altform-unplated_targetsize-256.png" />
-    <Content Remove="Assets\Icons\Dark\AppIcon.altform-unplated_targetsize-32.png" />
-    <Content Remove="Assets\Icons\Dark\AppIcon.altform-unplated_targetsize-48.png" />
-    <Content Remove="Assets\Icons\Dark\AppIcon.targetsize-16.png" />
-    <Content Remove="Assets\Icons\Dark\AppIcon.targetsize-24.png" />
-    <Content Remove="Assets\Icons\Dark\AppIcon.targetsize-256.png" />
-    <Content Remove="Assets\Icons\Dark\AppIcon.targetsize-32.png" />
-    <Content Remove="Assets\Icons\Dark\AppIcon.targetsize-48.png" />
-    <Content Remove="Assets\Icons\Dark\Light\AppIcon.altform-lightunplated_targetsize-16.png" />
-    <Content Remove="Assets\Icons\Dark\Light\AppIcon.altform-lightunplated_targetsize-24.png" />
-    <Content Remove="Assets\Icons\Dark\Light\AppIcon.altform-lightunplated_targetsize-256.png" />
-    <Content Remove="Assets\Icons\Dark\Light\AppIcon.altform-lightunplated_targetsize-32.png" />
-    <Content Remove="Assets\Icons\Dark\Light\AppIcon.altform-lightunplated_targetsize-48.png" />
-    <Content Remove="Assets\Icons\Dark\Light\AppIcon.altform-unplated_targetsize-16.png" />
-    <Content Remove="Assets\Icons\Dark\Light\AppIcon.altform-unplated_targetsize-24.png" />
-    <Content Remove="Assets\Icons\Dark\Light\AppIcon.altform-unplated_targetsize-256.png" />
-    <Content Remove="Assets\Icons\Dark\Light\AppIcon.altform-unplated_targetsize-32.png" />
-    <Content Remove="Assets\Icons\Dark\Light\AppIcon.altform-unplated_targetsize-48.png" />
-    <Content Remove="Assets\Icons\Dark\Light\AppIcon.targetsize-16.png" />
-    <Content Remove="Assets\Icons\Dark\Light\AppIcon.targetsize-24.png" />
-    <Content Remove="Assets\Icons\Dark\Light\AppIcon.targetsize-256.png" />
-    <Content Remove="Assets\Icons\Dark\Light\AppIcon.targetsize-32.png" />
-    <Content Remove="Assets\Icons\Dark\Light\AppIcon.targetsize-48.png" />
-    <Content Remove="Assets\Icons\Dark\Light\SplashScreen.scale-100.png" />
-    <Content Remove="Assets\Icons\Dark\Light\SplashScreen.scale-125.png" />
-    <Content Remove="Assets\Icons\Dark\Light\SplashScreen.scale-150.png" />
-    <Content Remove="Assets\Icons\Dark\Light\SplashScreen.scale-200.png" />
-    <Content Remove="Assets\Icons\Dark\Light\SplashScreen.scale-400.png" />
-    <Content Remove="Assets\Icons\Dark\SplashScreen.scale-100.png" />
-    <Content Remove="Assets\Icons\Dark\SplashScreen.scale-125.png" />
-    <Content Remove="Assets\Icons\Dark\SplashScreen.scale-150.png" />
-    <Content Remove="Assets\Icons\Dark\SplashScreen.scale-200.png" />
-    <Content Remove="Assets\Icons\Dark\SplashScreen.scale-400.png" />
+    <Compile Remove="codegen\**" />
+    <Compile Remove="TailscaleClientInstaller\**" />
+    <EmbeddedResource Remove="codegen\**" />
+    <EmbeddedResource Remove="TailscaleClientInstaller\**" />
+    <None Remove="codegen\**" />
+    <None Remove="MaskedPrefsGenerator\**" />
+    <None Remove="TailscaleClientInstaller\**" />
+    <Page Remove="codegen\**" />
+    <Page Remove="TailscaleClientInstaller\**" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Assets\Icons\WideTile.scale-100.png" />
-    <None Remove="Assets\Icons\WideTile.scale-125.png" />
-    <None Remove="Assets\Icons\WideTile.scale-150.png" />
-    <None Remove="Assets\Icons\WideTile.scale-200.png" />
-    <None Remove="Assets\Icons\WideTile.scale-400.png" />
+    <Content Remove="Assets\AccountCard.xaml" />
+    <Content Remove="Assets\Android.png" />
+    <Content Remove="Assets\AppIcon.altform-lightunplated_targetsize-16.png" />
+    <Content Remove="Assets\AppIcon.altform-lightunplated_targetsize-24.png" />
+    <Content Remove="Assets\AppIcon.altform-lightunplated_targetsize-256.png" />
+    <Content Remove="Assets\AppIcon.altform-lightunplated_targetsize-32.png" />
+    <Content Remove="Assets\AppIcon.altform-lightunplated_targetsize-48.png" />
+    <Content Remove="Assets\AppIcon.altform-unplated_targetsize-16.png" />
+    <Content Remove="Assets\AppIcon.altform-unplated_targetsize-24.png" />
+    <Content Remove="Assets\AppIcon.altform-unplated_targetsize-256.png" />
+    <Content Remove="Assets\AppIcon.altform-unplated_targetsize-32.png" />
+    <Content Remove="Assets\AppIcon.altform-unplated_targetsize-48.png" />
+    <Content Remove="Assets\AppIcon.targetsize-16.png" />
+    <Content Remove="Assets\AppIcon.targetsize-24.png" />
+    <Content Remove="Assets\AppIcon.targetsize-32.png" />
+    <Content Remove="Assets\AppIcon.targetsize-48.png" />
+    <Content Remove="Assets\Apple.png" />
+    <Content Remove="Assets\ConfirmDialog.xaml" />
+    <Content Remove="Assets\ConfirmDialog.xaml.cs" />
+    <Content Remove="Assets\DeviceCard.xaml" />
+    <Content Remove="Assets\FeatureTag.xaml" />
+    <Content Remove="Assets\FlippedSwitch.xaml" />
+    <Content Remove="Assets\FlippedSwitch.xaml.cs" />
+    <Content Remove="Assets\Icons\AppIcon.altform-lightunplated_targetsize-16.png" />
+    <Content Remove="Assets\Icons\AppIcon.altform-lightunplated_targetsize-24.png" />
+    <Content Remove="Assets\Icons\AppIcon.altform-lightunplated_targetsize-256.png" />
+    <Content Remove="Assets\Icons\AppIcon.altform-lightunplated_targetsize-32.png" />
+    <Content Remove="Assets\Icons\AppIcon.altform-lightunplated_targetsize-48.png" />
+    <Content Remove="Assets\Icons\AppIcon.altform-unplated_targetsize-16.png" />
+    <Content Remove="Assets\Icons\AppIcon.altform-unplated_targetsize-24.png" />
+    <Content Remove="Assets\Icons\AppIcon.altform-unplated_targetsize-256.png" />
+    <Content Remove="Assets\Icons\AppIcon.altform-unplated_targetsize-32.png" />
+    <Content Remove="Assets\Icons\AppIcon.altform-unplated_targetsize-48.png" />
+    <Content Remove="Assets\Icons\AppIcon.targetsize-16.png" />
+    <Content Remove="Assets\Icons\AppIcon.targetsize-24.png" />
+    <Content Remove="Assets\Icons\AppIcon.targetsize-256.png" />
+    <Content Remove="Assets\Icons\AppIcon.targetsize-32.png" />
+    <Content Remove="Assets\Icons\AppIcon.targetsize-48.png" />
+    <Content Remove="Assets\Linux.png" />
+    <Content Remove="Assets\LoginDialog.xaml" />
+    <Content Remove="Assets\LoginDialog.xaml.cs" />
+    <Content Remove="Assets\TailscaleIcon.xaml" />
+    <Content Remove="Assets\TailscaleIcon.xaml.cs" />
+    <Content Remove="Assets\Unknown.png" />
+    <Content Remove="Assets\Windows.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Assets\AccountCard.xaml" />
+    <None Remove="Assets\ConfirmDialog.xaml" />
+    <None Remove="Assets\DeviceCard.xaml" />
+    <None Remove="Assets\FeatureTag.xaml" />
+    <None Remove="Assets\FlippedSwitch.xaml" />
+    <None Remove="Assets\Icons\AppIcon.scale-100.png" />
+    <None Remove="Assets\Icons\AppIcon.scale-125.png" />
+    <None Remove="Assets\Icons\AppIcon.scale-150.png" />
+    <None Remove="Assets\Icons\AppIcon.scale-200.png" />
+    <None Remove="Assets\Icons\AppIcon.scale-400.png" />
+    <None Remove="Assets\Icons\AppIcon.targetsize-16_altform-lightunplated.png" />
+    <None Remove="Assets\Icons\AppIcon.targetsize-32_altform-lightunplated.png" />
+    <None Remove="Assets\Icons\AppIcon.targetsize-32_altform-unplated.png" />
+    <None Remove="Assets\Icons\AppIcon.targetsize-48_altform-lightunplated.png" />
+    <None Remove="Assets\LoginDialog.xaml" />
+    <None Remove="Assets\TailscaleIcon.xaml" />
+    <None Remove="MainWindow.xaml" />
+    <None Remove="Views\Accounts.xaml" />
+    <None Remove="Views\AppSkeleton.xaml" />
+    <None Remove="Views\Error.xaml" />
+    <None Remove="Views\Home.xaml" />
+    <None Remove="Views\Settings.xaml" />
+    <None Remove="Views\TrayMenu.xaml" />
   </ItemGroup>
 	
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
-    <PackageReference Include="H.NotifyIcon.WinUI" Version="2.1.4" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240923002" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="H.NotifyIcon.WinUI" Version="2.2.0" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.250108002" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
     <PackageReference Include="QRCoder" Version="1.6.0" />
-    <PackageReference Include="WinUIEx" Version="2.4.2" />
+    <PackageReference Include="WinUIEx" Version="2.5.1" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
@@ -257,6 +291,18 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Assets\Misc\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Assets\FlippedSwitch.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <None Update="Assets\Icons\AppIconBase-Dark.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="Views\TrayMenu.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -295,4 +341,15 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <DebugType>portable</DebugType>
   </PropertyGroup>
+  <ItemGroup>
+    <PRIResource Remove="TailscaleClientInstaller\**" />
+  </ItemGroup>
+  <ItemGroup>
+	<PRIResource Remove="codegen\**" />
+  </ItemGroup>
+
+  <!--<PropertyGroup>
+	<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+	<CompilerGeneratedFilesOutputPath>codegen</CompilerGeneratedFilesOutputPath>
+  </PropertyGroup>-->
 </Project>
