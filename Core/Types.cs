@@ -123,12 +123,64 @@ public class Types
         {
             get; set;
         }
-
-        public override string ToString()
+        public object CapMap
         {
-            return $"ID: {ID}, PublicKey: {PublicKey}, HostName: {HostName}, OS: {OS}, LastSeen: {LastSeen}, Online: {Online}";
+            get; set;
         }
     }
+
+    public class SuggestedExitNode
+    {
+        public string ID
+        {
+            get; set;
+        }
+
+        public string Name
+        {
+            get; set;
+        }
+
+        public Location Location
+        {
+            get; set;
+        }
+    }
+
+    public class Location
+    {
+        public string Country
+        {
+            get; set;
+        }
+        public string CountryCode
+        {
+            get; set;
+        }
+        public string City
+        {
+            get; set;
+        }
+
+        public string CityCode
+        {
+            get; set;
+        }
+
+        public double Latitude
+        {
+            get; set;
+        }
+        public double Longitude
+        {
+            get; set;
+        }
+
+        public int Priority
+        {
+            get; set;
+        }
+}
 
     public class User
     {
@@ -148,15 +200,6 @@ public class Types
         {
             get; set;
         }
-        public List<object> Roles
-        {
-            get; set;
-        }
-
-        public override string ToString()
-        {
-            return $"ID: {ID}, LoginName: {LoginName}, DisplayName: {DisplayName}, ProfilePicURL: {ProfilePicURL}";
-        }
     }
 
     public class CurrentTailnet
@@ -172,11 +215,6 @@ public class Types
         public bool MagicDNSEnabled
         {
             get; set;
-        }
-
-        public override string ToString()
-        {
-            return $"Name: {Name}, MagicDNSSuffix: {MagicDNSSuffix}, MagicDNSEnabled: {MagicDNSEnabled}";
         }
     }
 
@@ -234,11 +272,6 @@ public class Types
         {
             get; set;
         }
-
-        public override string ToString()
-        {
-            return $"Version: {Version}, BackendState: {BackendState}, Self: [{Self}], PeerCount: {Peer?.Count ?? 0}, UserCount: {User?.Count ?? 0}";
-        }
     }
 
     public class NetworkProfile
@@ -250,11 +283,6 @@ public class Types
         public string DomainName
         {
             get; set;
-        }
-
-        public override string ToString()
-        {
-            return $"MagicDNSName: {MagicDNSName}, DomainName: {DomainName}";
         }
     }
 
@@ -291,11 +319,6 @@ public class Types
         public string ControlURL
         {
             get; set;
-        }
-
-        public override string ToString()
-        {
-            return $"ID: {ID}, Name: {Name}, NetworkProfile: [{NetworkProfile}], NodeID: {NodeID}, ControlURL: {ControlURL}";
         }
     }
 
@@ -351,8 +374,7 @@ public class Types
             }
         }
 
-        // Unused in current Tailscale, see https://github.com/tailscale/tailscale/issues/12058
-        public bool AllowSingleHosts { get; set; } = true;
+
 
         private string _exitNodeID;
         public bool ExitNodeIDSet
@@ -382,16 +404,6 @@ public class Types
                 _exitNodeIP = value;
                 ExitNodeIPSet = true;
             }
-        }
-
-        // Internal use only, so we don't set the property on change ourselves but allow deserialization
-        public bool InternalExitNodePriorSet
-        {
-            get; set;
-        }
-        public string InternalExitNodePrior
-        {
-            get; set;
         }
 
         private bool _exitNodeAllowLANAccess;
@@ -557,23 +569,6 @@ public class Types
             {
                 _forceDaemon = value;
                 ForceDaemonSet = true;
-            }
-        }
-        
-        // Internal debug mode.
-        private bool _egg;
-        public bool EggSet
-        {
-            get; set;
-        }
-
-        public bool Egg
-        {
-            get => _egg;
-            set
-            {
-                _egg = value;
-                EggSet = true;
             }
         }
 
@@ -773,6 +768,32 @@ public class Types
                 _config = value;
                 ConfigSet = true;
             }
+        }
+
+        // Unused in current Tailscale, see https://github.com/tailscale/tailscale/issues/12058
+        public bool AllowSingleHosts { get; private set; } = true;
+
+        // Internal debug mode.
+        private bool _egg;
+        public bool EggSet
+        {
+            get; set;
+        }
+
+        public bool Egg
+        {
+            get => _egg;
+            set
+            {
+                _egg = value;
+                EggSet = true;
+            }
+        }
+
+        // Internal field, cannot be set by clients
+        public string InternalExitNodePrior
+        {
+            get; private set;
         }
 
         public void OnDeserialized()

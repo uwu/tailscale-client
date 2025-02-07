@@ -47,8 +47,7 @@ internal static class API
         {
             BaseAddress = new Uri("http://local-tailscaled.sock"),
             DefaultRequestHeaders = { { "User-Agent", "Go-http-client/1.1" },
-                                { "Tailscale-Cap", "95" },  // TODO: Get the real value i just
-                                                            // copied it from tailscale-ipn packets
+                                { "Tailscale-Cap", "113" }, // Latest (as of 2025/02/07) from https://github.com/tailscale/tailscale/blob/main/tailcfg/tailcfg.go
                                 { "Accept-Encoding", "gzip" } },
             Timeout = TimeSpan.FromSeconds(2)
         };
@@ -246,5 +245,10 @@ internal static class API
     public static void Disconnect()
     {
         UpdatePrefs(new Types.MaskedPrefs { WantRunning = false });
+    }
+
+    public static Types.SuggestedExitNode GetSuggestedExitNode()
+    {
+        return GET<Types.SuggestedExitNode>("/localapi/v0/suggest-exit-node");
     }
 }
