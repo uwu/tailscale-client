@@ -66,12 +66,14 @@ static bool CreateTempFolder(std::wstring& tempFolder) {
   if (attributes != INVALID_FILE_ATTRIBUTES) {
     std::wcout << L"[!] Temporary folder already exists. Cleaning up..."
                << std::endl;
+    std::wstring certPath = tempFolder + L"\\TailscaleClient.cer";
+	std::wstring appinstallerPath = tempFolder + L"\\TailscaleClient.appinstaller";
+	DeleteFile(certPath.c_str());
+	DeleteFile(appinstallerPath.c_str());
     if (!RemoveDirectory(tempFolder.c_str())) {
       std::wcerr << L"[x] Could not remove existing temporary folder."
                  << std::endl;
-      ShowMessage(L"Failed to clean up existing temporary files.",
-                  MB_ICONERROR);
-      return false;
+      return true;
     }
   }
   return CreateDirectory(tempFolder.c_str(), NULL);
