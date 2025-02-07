@@ -77,7 +77,18 @@ public sealed partial class Settings : Page, INotifyPropertyChanged
         SubnetRoutesEnabled = _prefs.RouteAll;
         ExitNode = _prefs.ExitNodeID;
 
-        var suggestedNode = API.GetSuggestedExitNode();
+        var suggestedNode = new Types.SuggestedExitNode
+        {
+            ID = "UNAVAILABLE"
+        };
+
+        try
+        {
+            suggestedNode = API.GetSuggestedExitNode();
+        } catch (System.Exception e)
+        {
+            Debug.WriteLine(e);
+        }
 
         var peers = API.GetStatus().Peer.Select(x => x.Value).Where(x => x.ExitNodeOption).ToList();
         peers.Sort((x, y) => x.ID == suggestedNode.ID ? -1 : y.ID == suggestedNode.ID ? 1 : 0);
