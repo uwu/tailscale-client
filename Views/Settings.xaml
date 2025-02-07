@@ -23,12 +23,7 @@
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="Exit node" VerticalAlignment="Center"/>
-                <ComboBox Grid.Column="1" MinWidth="120" Margin="0,8,0,8" SelectedIndex="0" SelectionChanged="ExitNodeChanged">
-                    <x:String>Disabled</x:String>
-                    <x:String>Green</x:String>
-                    <x:String>Red</x:String>
-                    <x:String>Yellow</x:String>
-                </ComboBox>
+                <ComboBox x:Name="ExitNodeList" Grid.Column="1" MinWidth="120" Margin="0,8,0,8" SelectedIndex="{x:Bind CurrentNode}" SelectionChanged="ExitNodeChanged"/>
             </Grid>
             <TextBlock Foreground="{StaticResource TextFillColorSecondary}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="WrapWholeWords" Text="Exit nodes allow you to route all traffic through a specific device on your Tailnet, and for example allows you to bypass certain network restrictions such as a university blocking certain ports."/>
             <HyperlinkButton HorizontalAlignment="Right" Margin="0,8,0,4" FontSize="12" Content="Learn more" NavigateUri="https://tailscale.com/kb/1103/exit-nodes"/>
