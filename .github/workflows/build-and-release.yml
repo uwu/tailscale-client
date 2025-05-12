@@ -94,4 +94,4 @@ jobs:
       - name: Create a new release
         uses: softprops/action-gh-release@v2
         with:
-          files: TailscaleClient-win*
+          files: ./Releases/TailscaleClient-win*

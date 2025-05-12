@@ -16,8 +16,8 @@ It aims to provide a modern, clean, and feature-rich Tailscale client for Window
 - [x] QR code logins
 - [x] Netmap view (devices page)
 - [x] Device details and copy (such as IP, domain, etc.)
-- [ ] Exit nodes
-- [ ] Settings (Run unattended, allow Tailscale DNS, accept subnets)
+- [x] Exit nodes
+- [x] Settings (Run unattended, allow Tailscale DNS, accept subnets)
 - [ ] Taildrop
 
 ### Preview
@@ -29,25 +29,8 @@ It aims to provide a modern, clean, and feature-rich Tailscale client for Window
 
 ## Installation
 
-### Method 1.
-Grab the installer from the [CDN](https://tsc.xirreal.dev/TailscaleClientInstaller.exe) or from the [latest release](https://github.com/uwu/tailscale-client/releases/latest).
-This is an automated installer that will:
-1) Download the certificate and install it
-2) Download the .appinstaller and run it.
-
-It should be the easiest and most seamless way to install Tailscale Client, giving you access to automatic updates.
-
-> [!IMPORTANT]
-> This method requires UAC (admin rights) to install the certificate.
-
-### Method 2.
-Download the appinstaller from the [latest release](https://github.com/uwu/tailscale-client/releases/latest), along with the certificate.
-This is the manual version of the method explained above: you will need to install the certificate in LocalMachine/TrustedPeople and run the appinstaller.
-This version will still work with automatic updates.
-
-### Method 3.
-Download the msixbundle from from the [latest release](https://github.com/uwu/tailscale-client/releases/latest).
-This version does NOT support automatic updates.
+Grab the installer from the [CDN x64](https://tsc.xirreal.dev/TailscaleClient-win-x64-Setup.exe)/[CDN arm64](https://tsc.xirreal.dev/TailscaleClient-win-arm64-Setup.exe) or from the [latest release](https://github.com/uwu/tailscale-client/releases/latest).
+Portable versions are also available in [releases](https://github.com/uwu/tailscale-client/releases/latest) without automatic updates.
 
 ## Building and running
 0. Prerequisites
@@ -59,10 +42,10 @@ This version does NOT support automatic updates.
 1. Clone the repository
 2. Open the solution in Visual Studio 2022
 3. Build the solution and run
-4. To install manually, you will need to build using "Project > Package and Publish > Create App Packages" and following the wizard.
 
 > [!WARNING]
-> To install manually, you will need to sideload the msix package. You MUST install the certificate you used to sign the package on your device, or it will not install.
+> To install manually, you will need to sideload the msix package. This means building the package, publishing locally (either via the Create App Package wizard or the Publish wizard).
+> You MUST install the certificate you used to sign the package on your device, or it will not install.
 
 ## Contributing
 Contributions are welcome! Please open an issue or pull request if you have any suggestions or changes.
