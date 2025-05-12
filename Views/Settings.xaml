@@ -15,7 +15,7 @@
                 Padding="12,4,12,8"
                 BorderThickness="1"
                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                Background="{ThemeResource CardBackgroundFillColorSecondary}"
         >
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -25,7 +25,7 @@
                 <TextBlock Grid.Column="0" Text="Exit node" VerticalAlignment="Center"/>
                 <ComboBox x:Name="ExitNodeList" Grid.Column="1" MinWidth="120" Margin="0,8,0,8" SelectedIndex="{x:Bind CurrentNode}" SelectionChanged="ExitNodeChanged"/>
             </Grid>
-            <TextBlock Foreground="{StaticResource TextFillColorSecondary}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="WrapWholeWords" Text="Exit nodes allow you to route all traffic through a specific device on your Tailnet, and for example allows you to bypass certain network restrictions such as a university blocking certain ports."/>
+            <TextBlock Foreground="{StaticResource TextFillColorSecondary}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="WrapWholeWords" Text="Exit nodes allow you to route all traffic through a specific device on your Tailnet, allowing you, for example, to bypass certain network restrictions such as a university blocking certain ports."/>
             <HyperlinkButton HorizontalAlignment="Right" Margin="0,8,0,4" FontSize="12" Content="Learn more" NavigateUri="https://tailscale.com/kb/1103/exit-nodes"/>
         </StackPanel>
         <StackPanel
@@ -82,5 +82,20 @@
             </Grid>
             <TextBlock Margin="0,0,0,4" Foreground="{StaticResource TextFillColorSecondary}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="WrapWholeWords" Text="If an Admin has created subnet routes for your tailnet, then Tailscale will route your device's traffic for the advertised subnets to the appropriate subnet router."/>
         </StackPanel>
+
+        <Expander HorizontalAlignment="Stretch" CornerRadius="8" Margin="0,8,0,0" Padding="24,4,12,8" Header="Advanced settings">
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Advertise exit node" VerticalAlignment="Center"/>
+                    <local:FlippedSwitch Grid.Column="1" IsOn="{x:Bind SubnetRoutesEnabled, Mode=TwoWay}" Toggled="UpdatePrefsRoutes"/>
+                </Grid>
+                <TextBlock Margin="0,0,0,4" Foreground="{StaticResource TextFillColorSecondary}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="WrapWholeWords" Text="Allows other devices to route all their public internet traffic through this node."/>
+            </StackPanel>
+        </Expander>
+        <TextBlock Margin="0,16,0,0" HorizontalAlignment="Center" Foreground="{StaticResource TextFillColorDisabled}" Style="{StaticResource CaptionTextBlockStyle}" Text="{x:Bind VersionText, Mode=OneTime}"/>
     </StackPanel>
 </Page>

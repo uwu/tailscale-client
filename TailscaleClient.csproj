@@ -1,278 +1,42 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows10.0.22000.0</TargetFramework>
-    <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
-    <RootNamespace>TailscaleClient</RootNamespace>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-	<Platforms>x64;ARM64</Platforms>
-	<PlatformTarget>anycpu</PlatformTarget>
-    <RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers>
-    <UseRidGraph>true</UseRidGraph>
-    <UseWinUI>true</UseWinUI>
-    <EnableMsixTooling>true</EnableMsixTooling>
-    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
-    <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
-    <GenerateTestArtifacts>True</GenerateTestArtifacts>
-    <AppxBundle>Always</AppxBundle>
-    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-    <IsPublishable>True</IsPublishable>
-    <Title>Tailscale Client</Title>
-    <PackageIcon>AppIconBase-Dark.png</PackageIcon>
-    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
-    <StartupObject>TailscaleClient.Program</StartupObject>
-    <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
-    <WindowsSdkPackageVersion>10.0.22000.38</WindowsSdkPackageVersion>
-    <AppxBundlePlatforms>x64|arm64</AppxBundlePlatforms>
-    <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
-    <SelfContained>true</SelfContained>
-    <PackageCertificateThumbprint>9C3E8CCAC08122B756BC98E5559841BE87816AAA</PackageCertificateThumbprint>
-    <AppxPackageSigningTimestampServerUrl>http://timestamp.digicert.com</AppxPackageSigningTimestampServerUrl>
-    <AppInstallerUri>https://tsc.xirreal.dev</AppInstallerUri>
-    <DefaultLanguage>en-us</DefaultLanguage>
-    <AppxPackageDir>C:\Users\xirreal\Workspace\TailscaleClient\Dist</AppxPackageDir>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="codegen\**" />
-    <Compile Remove="TailscaleClientInstaller\**" />
-    <EmbeddedResource Remove="codegen\**" />
-    <EmbeddedResource Remove="TailscaleClientInstaller\**" />
-    <None Remove="codegen\**" />
-    <None Remove="MaskedPrefsGenerator\**" />
-    <None Remove="TailscaleClientInstaller\**" />
-    <Page Remove="codegen\**" />
-    <Page Remove="TailscaleClientInstaller\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Remove="Assets\AccountCard.xaml" />
-    <Content Remove="Assets\Android.png" />
-    <Content Remove="Assets\AppIcon.altform-lightunplated_targetsize-16.png" />
-    <Content Remove="Assets\AppIcon.altform-lightunplated_targetsize-24.png" />
-    <Content Remove="Assets\AppIcon.altform-lightunplated_targetsize-256.png" />
-    <Content Remove="Assets\AppIcon.altform-lightunplated_targetsize-32.png" />
-    <Content Remove="Assets\AppIcon.altform-lightunplated_targetsize-48.png" />
-    <Content Remove="Assets\AppIcon.altform-unplated_targetsize-16.png" />
-    <Content Remove="Assets\AppIcon.altform-unplated_targetsize-24.png" />
-    <Content Remove="Assets\AppIcon.altform-unplated_targetsize-256.png" />
-    <Content Remove="Assets\AppIcon.altform-unplated_targetsize-32.png" />
-    <Content Remove="Assets\AppIcon.altform-unplated_targetsize-48.png" />
-    <Content Remove="Assets\AppIcon.targetsize-16.png" />
-    <Content Remove="Assets\AppIcon.targetsize-24.png" />
-    <Content Remove="Assets\AppIcon.targetsize-32.png" />
-    <Content Remove="Assets\AppIcon.targetsize-48.png" />
-    <Content Remove="Assets\Apple.png" />
-    <Content Remove="Assets\ConfirmDialog.xaml" />
-    <Content Remove="Assets\ConfirmDialog.xaml.cs" />
-    <Content Remove="Assets\DeviceCard.xaml" />
-    <Content Remove="Assets\FeatureTag.xaml" />
-    <Content Remove="Assets\FlippedSwitch.xaml" />
-    <Content Remove="Assets\FlippedSwitch.xaml.cs" />
-    <Content Remove="Assets\Icons\AppIcon.altform-lightunplated_targetsize-16.png" />
-    <Content Remove="Assets\Icons\AppIcon.altform-lightunplated_targetsize-24.png" />
-    <Content Remove="Assets\Icons\AppIcon.altform-lightunplated_targetsize-256.png" />
-    <Content Remove="Assets\Icons\AppIcon.altform-lightunplated_targetsize-32.png" />
-    <Content Remove="Assets\Icons\AppIcon.altform-lightunplated_targetsize-48.png" />
-    <Content Remove="Assets\Icons\AppIcon.altform-unplated_targetsize-16.png" />
-    <Content Remove="Assets\Icons\AppIcon.altform-unplated_targetsize-24.png" />
-    <Content Remove="Assets\Icons\AppIcon.altform-unplated_targetsize-256.png" />
-    <Content Remove="Assets\Icons\AppIcon.altform-unplated_targetsize-32.png" />
-    <Content Remove="Assets\Icons\AppIcon.altform-unplated_targetsize-48.png" />
-    <Content Remove="Assets\Icons\AppIcon.targetsize-16.png" />
-    <Content Remove="Assets\Icons\AppIcon.targetsize-24.png" />
-    <Content Remove="Assets\Icons\AppIcon.targetsize-256.png" />
-    <Content Remove="Assets\Icons\AppIcon.targetsize-32.png" />
-    <Content Remove="Assets\Icons\AppIcon.targetsize-48.png" />
-    <Content Remove="Assets\Linux.png" />
-    <Content Remove="Assets\LoginDialog.xaml" />
-    <Content Remove="Assets\LoginDialog.xaml.cs" />
-    <Content Remove="Assets\TailscaleIcon.xaml" />
-    <Content Remove="Assets\TailscaleIcon.xaml.cs" />
-    <Content Remove="Assets\Unknown.png" />
-    <Content Remove="Assets\Windows.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="Assets\AccountCard.xaml" />
-    <None Remove="Assets\ConfirmDialog.xaml" />
-    <None Remove="Assets\DeviceCard.xaml" />
-    <None Remove="Assets\FeatureTag.xaml" />
-    <None Remove="Assets\FlippedSwitch.xaml" />
-    <None Remove="Assets\Icons\AppIcon.scale-100.png" />
-    <None Remove="Assets\Icons\AppIcon.scale-125.png" />
-    <None Remove="Assets\Icons\AppIcon.scale-150.png" />
-    <None Remove="Assets\Icons\AppIcon.scale-200.png" />
-    <None Remove="Assets\Icons\AppIcon.scale-400.png" />
-    <None Remove="Assets\Icons\AppIcon.targetsize-16_altform-lightunplated.png" />
-    <None Remove="Assets\Icons\AppIcon.targetsize-32_altform-lightunplated.png" />
-    <None Remove="Assets\Icons\AppIcon.targetsize-32_altform-unplated.png" />
-    <None Remove="Assets\Icons\AppIcon.targetsize-48_altform-lightunplated.png" />
-    <None Remove="Assets\LoginDialog.xaml" />
-    <None Remove="Assets\TailscaleIcon.xaml" />
-    <None Remove="MainWindow.xaml" />
-    <None Remove="Views\Accounts.xaml" />
-    <None Remove="Views\AppSkeleton.xaml" />
-    <None Remove="Views\Error.xaml" />
-    <None Remove="Views\Home.xaml" />
-    <None Remove="Views\Settings.xaml" />
-    <None Remove="Views\TrayMenu.xaml" />
-  </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-    <PackageReference Include="H.NotifyIcon.WinUI" Version="2.2.0" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.250108002" />
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
-    <PackageReference Include="QRCoder" Version="1.6.0" />
-    <PackageReference Include="WinUIEx" Version="2.5.1" />
-    <Manifest Include="$(ApplicationManifest)" />
-  </ItemGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0-windows10.0.22000.0</TargetFramework>
+		<Platforms>x64;ARM64</Platforms>
+		<PlatformTarget>anycpu</PlatformTarget>
+		<RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers>
+		<UseRidGraph>true</UseRidGraph>
+		<UseWinUI>true</UseWinUI>
+		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+		<WindowsPackageType>None</WindowsPackageType>
 
-  <!--
-    Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
-    Tools extension to be activated for this project even if the Windows App SDK Nuget
-    package has not yet been restored.
-  -->
-  <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
-    <ProjectCapability Include="Msix" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Update="Assets\Android.svg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Apple.svg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Icons\AppIconBase-Dark.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Linux.svg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Misc\Guest.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Platforms\Android.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Platforms\Apple.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Platforms\Linux.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Platforms\Unknown.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Platforms\Windows.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Icons\Tailscale-AppIcon.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Windows.svg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Views\Error.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-    <Page Update="Views\Settings.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Views\Accounts.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Assets\AccountCard.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Assets\FeatureTag.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Assets\DeviceCard.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\AppSkeleton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Views\Home.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Assets\TailscaleIcon.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\Misc\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Assets\FlippedSwitch.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <None Update="Assets\Icons\AppIconBase-Dark.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Views\TrayMenu.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Assets\LoginDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Assets\ConfirmDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageId>TailscaleClient</PackageId>
+		<Authors>xirreal</Authors>
+		<Description>A modern and beautiful client for Tailscale with WinUI 3</Description>
+		<PackageOutputPath>artifacts\nuget</PackageOutputPath>
+		<IncludeReferencedProjects>true</IncludeReferencedProjects>
+		<IncludeBuildOutput>true</IncludeBuildOutput>
 
-  <!--
-    Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution
-    Explorer "Package and Publish" context menu entry to be enabled for this project even if
-    the Windows App SDK Nuget package has not yet been restored.
-  -->
-  <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
-    <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <DebugType>portable</DebugType>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
-    <DebugType>portable</DebugType>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <DebugType>portable</DebugType>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
-    <DebugType>portable</DebugType>
-  </PropertyGroup>
-  <ItemGroup>
-    <PRIResource Remove="TailscaleClientInstaller\**" />
-  </ItemGroup>
-  <ItemGroup>
-	<PRIResource Remove="codegen\**" />
-  </ItemGroup>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<DebugType>portable</DebugType>
 
-  <!--<PropertyGroup>
-	<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-	<CompilerGeneratedFilesOutputPath>codegen</CompilerGeneratedFilesOutputPath>
-  </PropertyGroup>-->
+		<RootNamespace>TailscaleClient</RootNamespace>
+		<StartupObject>TailscaleClient.Program</StartupObject>
+		<AssemblyName>TailscaleClient</AssemblyName>
+		<ApplicationIcon>Assets\Icons\AppIconBase-Dark.ico</ApplicationIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250401001" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="H.NotifyIcon.WinUI" Version="2.3.0" />
+		<PackageReference Include="Nerdbank.GitVersioning" Version="3.7.115">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="QRCoder" Version="1.6.0" />
+		<PackageReference Include="WinUIEx" Version="2.5.1" />
+	</ItemGroup>
 </Project>

@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Reflection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 
@@ -46,5 +48,21 @@ internal class Utils
         colors.Add("SeverityMedium", GetSeverityColor("medium"));
         colors.Add("SeverityLow", GetSeverityColor("low"));
         colors.Add("SeverityUnknown", GetSeverityColor("unknown"));
+    }
+
+    public static string GetAppVersion()
+    {
+        // Option A: Use the AssemblyInformationalVersionAttribute
+        var attr = Assembly.GetExecutingAssembly()
+                           .GetCustomAttribute<AssemblyInformationalVersionAttribute>();
+        if (attr is not null)
+        {
+            return attr.InformationalVersion;
+        }
+
+        // Fallback: File version (e.g. Major.Minor.Build.Revision)
+        var fileVersion = FileVersionInfo.GetVersionInfo(
+            Assembly.GetExecutingAssembly().Location).FileVersion;
+        return fileVersion ?? "Unknown";
     }
 }

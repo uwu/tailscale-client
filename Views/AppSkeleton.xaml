@@ -40,18 +40,17 @@
             PaneDisplayMode="Top"
             IsBackButtonVisible="Collapsed"
             SelectionChanged="OnNavigate"
+            Background="{StaticResource SystemControlTransparentBrush}"
         >
             <NavigationView.MenuItems>
                 <NavigationViewItem Content="Devices" Tag="Home">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE703;" />
-                        <!--Connect icon-->
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem Content="Tailnets" Tag="Accounts">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xEC27;" />
-                        <!--Switch icon-->
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>
