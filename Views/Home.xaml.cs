@@ -15,7 +15,7 @@ public sealed partial class Home : Page, INotifyPropertyChanged
     public event PropertyChangedEventHandler PropertyChanged;
     public void OnPropertyChanged([CallerMemberName] string propertyName = null)
     {
-        this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
     private string _username = "Guest";
@@ -66,15 +66,8 @@ public sealed partial class Home : Page, INotifyPropertyChanged
         var pfp = _profile.UserProfile.ProfilePicURL;
 
         // the spacing really bothered me.
-        if (string.IsNullOrEmpty(UserName))
-        {
-            UserNameBlock.Margin = new(-4, 5, 12, 0);
-        }
-        else
-        {
-            UserNameBlock.Margin = new(4, 5, 12, 0);
-        }
-
+        UserNameBlock.Margin = new(string.IsNullOrEmpty(UserName) ? -4 : 4, 5, 12, 0);
+        
         if (Uri.TryCreate(pfp, UriKind.Absolute, out _))
         {
             ProfilePicture = pfp;

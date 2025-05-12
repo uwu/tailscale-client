@@ -1,4 +1,6 @@
-﻿using Microsoft.UI.Xaml;
+﻿using System;
+using Microsoft.UI.Xaml;
+using Velopack;
 
 namespace TailscaleClient;
 
@@ -10,7 +12,26 @@ public partial class App : Application
 
     public App()
     {
+        VelopackApp.Build().Run();
         InitializeComponent();
+
+        var mgr = new UpdateManager("https://tsc.xirreal.dev");
+        
+        try
+        {
+            var newVersion = mgr.CheckForUpdates();
+            if (newVersion == null)
+            {
+                return;
+            }
+
+            mgr.DownloadUpdates(newVersion);
+            mgr.ApplyUpdatesAndRestart(newVersion);
+        } catch (Exception e)
+        {
+            // TODO: Show failed update bar, possibly a badge on settings?
+            return;
+        }
     }
 
     protected override void OnLaunched(LaunchActivatedEventArgs args)

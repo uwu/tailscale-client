@@ -31,11 +31,9 @@ public sealed partial class DeviceCard : UserControl
 
         return daysUntilExpiry switch
         {
-            <
-                                            0 => "Expired",
+            <0 => "Expired",
             0 => "Key expiring today",
             _ => $"Expiring in {daysUntilExpiry} {daysText}"
-
         };
     }
 
@@ -43,8 +41,7 @@ public sealed partial class DeviceCard : UserControl
     {
         return daysUntilExpiry switch
         {
-            <=
-                0 => Windows.UI.Color.FromArgb(255, 255, 0, 0),
+            <=0 => Windows.UI.Color.FromArgb(255, 255, 0, 0),
             _ => Windows.UI.Color.FromArgb(255, 255, 150, 0),
         };
     }
@@ -157,7 +154,7 @@ public sealed partial class DeviceCard : UserControl
             var days = (device.KeyExpiry - DateTime.Now).TotalDays;
             if (days <= 14)
             {
-                var roundedDays = (int)Math.Floor(days);
+                var roundedDays = (int)Math.Ceiling(days);
                 var expiryTag = new FeatureTag(FormatDaysUntilExpiry(roundedDays),
                                                "To refresh the key, reauthenticate on the device.",
                                                FormatColorForExpiry(roundedDays));

@@ -13,8 +13,10 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: Check out repository
+      - name: Check out repository, with full history
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up .NET
         uses: actions/setup-dotnet@v4
@@ -33,22 +35,11 @@ jobs:
         run: |
           Add-Content $env:GITHUB_PATH "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22000.0\x64"
 
-      - name: Install code signing certificate
-        env:
-          base64Pfx: ${{ secrets.PFX_B64 }}
-          password: ${{ secrets.PFX_PASS }}
+      - name: Build x64 and ARM64
         run: |
-          $securePassword = ConvertTo-SecureString -String $env:password -AsPlainText -Force
-          $pfxBytes = [System.Convert]::FromBase64String($env:base64Pfx)
-          $tempPfxPath = [System.IO.Path]::GetTempFileName()
-          [System.IO.File]::WriteAllBytes($tempPfxPath, $pfxBytes)
-          Import-PfxCertificate -FilePath $tempPfxPath -CertStoreLocation Cert:\CurrentUser\My -Password $securePassword
-
-      - name: Run package script
-        shell: pwsh
-        run: |
-          ./package.ps1
-          mkdir -Force dist
+          dotnet restore 
+          dotnet msbuild TailscaleClient.csproj -t:Rebuild -p:Platform=x64 -p:Configuration=Release -p:OutDir="./dist/x64/"
+          dotnet msbuild TailscaleClient.csproj -t:Rebuild -p:Platform=arm64 -p:Configuration=Release -p:OutDir="./dist/arm64/"
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
@@ -58,7 +49,7 @@ jobs:
 
   release:
     name: Release Package
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: build
     if: startsWith(github.ref, 'refs/tags/v')
 
@@ -68,14 +59,31 @@ jobs:
         with:
           name: dist
 
-      - name: "Upload to R2"
+      - name: Install packaging tools
+        run: |
+          dotnet tool install -g nbgv
+          dotnet tool install -g vpk
+
+      - name: Sync vpk to current version
+        run: |
+          vpk download http --url https://tsc.xirreal.dev/
+
+      - name: Package x64
+        run: |
+          vpk pack --packId TailscaleClient --packVersion $(nbgv get-version -v SimpleVersion) --packDir ./x64 --channel win-x64 --framework net8.0-x64-runtime
+
+      - name: Package arm64
+        run: |
+          vpk pack --packId TailscaleClient --packVersion $(nbgv get-version -v SimpleVersion) --packDir ./arm64 --channel win-arm64 --framework net8.0-arm64-runtime
+
+      - name: Upload to R2
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: auto
           AWS_ENDPOINT_URL: ${{ secrets.S3_ENDPOINT_URL }}
         run: |
-          aws s3 sync ./ s3://tsc/
+          aws s3 sync ./Releases s3://tsc/
 
       - name: Create a new release
         uses: softprops/action-gh-release@v2

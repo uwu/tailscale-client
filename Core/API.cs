@@ -47,8 +47,7 @@ internal static class API
         {
             BaseAddress = new Uri("http://local-tailscaled.sock"),
             DefaultRequestHeaders = { { "User-Agent", "Go-http-client/1.1" },
-                                { "Tailscale-Cap", "95" },  // TODO: Get the real value i just
-                                                            // copied it from tailscale-ipn packets
+                                { "Tailscale-Cap", "113" }, // Latest (as of 2025/02/07) from https://github.com/tailscale/tailscale/blob/main/tailcfg/tailcfg.go
                                 { "Accept-Encoding", "gzip" } },
             Timeout = TimeSpan.FromSeconds(2)
         };
@@ -182,9 +181,9 @@ internal static class API
         return GET<List<Types.Profile>>("/localapi/v0/profiles/");
     }
 
-    public static Types.Prefs GetPrefs()
+    public static Types.MaskedPrefs GetPrefs()
     {
-        return GET<Types.Prefs>("/localapi/v0/prefs");
+        return GET<Types.MaskedPrefs>("/localapi/v0/prefs");
     }
 
     public static void SwitchEmptyProfile()
@@ -202,19 +201,19 @@ internal static class API
         DELETE<object, object>($"localapi/v0/profiles/{userId}", new { });
     }
 
-    public static void Start(Types.Prefs prefs)
+    public static void Start(Types.MaskedPrefs prefs)
     {
         POST<object, object>("/localapi/v0/start", new { UpdatePrefs = prefs });
     }
 
-    public static Types.Prefs UpdatePrefs(Types.Prefs prefs)
+    public static Types.MaskedPrefs UpdatePrefs(Types.MaskedPrefs prefs)
     {
-        return PATCH<Types.Prefs, Types.Prefs>("/localapi/v0/prefs", prefs);
+        return PATCH<Types.MaskedPrefs, Types.MaskedPrefs>("/localapi/v0/prefs", prefs);
     }
 
-    public static void CheckPrefs(Types.Prefs prefs)
+    public static string CheckPrefs(Types.MaskedPrefs prefs)
     {
-        POST<string, Types.Prefs>("/localapi/v0/check-prefs", prefs);
+        return POST<string, Types.MaskedPrefs>("/localapi/v0/check-prefs", prefs);
     }
 
     public static void Logout()
@@ -227,7 +226,7 @@ internal static class API
         SwitchEmptyProfile();
 
         var prefs =
-            new Types.Prefs() { WantRunning = true, ControlURL = controlUrl };
+            new Types.MaskedPrefs() { WantRunning = true, ControlURL = controlUrl };
         Start(prefs);
         POST<object, object>("/localapi/v0/login-interactive", new { });
     }
@@ -241,11 +240,15 @@ internal static class API
     {
         var currentPrefs = GetPrefs();
         currentPrefs.WantRunning = true;
-        currentPrefs.WantRunningSet = true;
         UpdatePrefs(currentPrefs);
     }
     public static void Disconnect()
     {
-        UpdatePrefs(new Types.Prefs { WantRunning = false, WantRunningSet = true });
+        UpdatePrefs(new Types.MaskedPrefs { WantRunning = false });
+    }
+
+    public static Types.SuggestedExitNode GetSuggestedExitNode()
+    {
+        return GET<Types.SuggestedExitNode>("/localapi/v0/suggest-exit-node");
     }
 }
