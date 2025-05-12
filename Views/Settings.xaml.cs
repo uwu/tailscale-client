@@ -18,6 +18,7 @@ public sealed partial class Settings : Page, INotifyPropertyChanged
     public bool TailscaleDnsEnabled = false;
     public bool SubnetRoutesEnabled = false;
     public string ExitNode = "";
+    public string VersionText = Utils.GetAppVersion();
 
     public event PropertyChangedEventHandler PropertyChanged;
     public void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -37,7 +38,7 @@ public sealed partial class Settings : Page, INotifyPropertyChanged
     }
 
     private List<string> _peerIds = [];
-    private string _recommenddedNode = "";
+    private string _recommendedNode = "";
 
     public void UpdateExitNodeList(Types.SuggestedExitNode suggestedPeer, List<Types.PeerInfo> peers)
     {
@@ -96,10 +97,10 @@ public sealed partial class Settings : Page, INotifyPropertyChanged
         peers.Sort((x, y) => x.ID == suggestedNode.ID ? -1 : y.ID == suggestedNode.ID ? 1 : 0);
 
         var peerIds = peers.Select(x => x.ID).ToList();
-        if(!peerIds.All(x => _peerIds.Contains(x)) || (suggestedNode.ID != "UNAVAILABLE" && suggestedNode.ID != _recommenddedNode))
+        if(!peerIds.All(x => _peerIds.Contains(x)) || (suggestedNode.ID != "UNAVAILABLE" && suggestedNode.ID != _recommendedNode))
         {
             _peerIds = peerIds;
-            _recommenddedNode = suggestedNode.ID;
+            _recommendedNode = suggestedNode.ID;
             UpdateExitNodeList(suggestedNode, peers);
         }
     }
