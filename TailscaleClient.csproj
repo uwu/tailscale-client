@@ -3,30 +3,24 @@
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net8.0-windows10.0.22000.0</TargetFramework>
-		<Platforms>x64;ARM64</Platforms>
-		<PlatformTarget>anycpu</PlatformTarget>
-		<RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers>
-		<UseRidGraph>true</UseRidGraph>
+		<Platforms>x64;arm64</Platforms>
 		<UseWinUI>true</UseWinUI>
-		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+		<WindowsAppSDKSelfContained>false</WindowsAppSDKSelfContained>
 		<WindowsPackageType>None</WindowsPackageType>
-
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<PackageId>TailscaleClient</PackageId>
-		<Authors>xirreal</Authors>
-		<Description>A modern and beautiful client for Tailscale with WinUI 3</Description>
-		<PackageOutputPath>artifacts\nuget</PackageOutputPath>
-		<IncludeReferencedProjects>true</IncludeReferencedProjects>
-		<IncludeBuildOutput>true</IncludeBuildOutput>
-
-		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-		<DebugType>portable</DebugType>
+		<EnableMsixTooling>true</EnableMsixTooling>
 
 		<RootNamespace>TailscaleClient</RootNamespace>
 		<StartupObject>TailscaleClient.Program</StartupObject>
 		<AssemblyName>TailscaleClient</AssemblyName>
 		<ApplicationIcon>Assets\Icons\AppIconBase-Dark.ico</ApplicationIcon>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Dist\**" />
+	  <EmbeddedResource Remove="Dist\**" />
+	  <None Remove="Dist\**" />
+	  <Page Remove="Dist\**" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250401001" />
@@ -37,6 +31,28 @@
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="QRCoder" Version="1.6.0" />
+		<PackageReference Include="Velopack" Version="0.0.1053" />
 		<PackageReference Include="WinUIEx" Version="2.5.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Remove="Assets\AccountCard.xaml" />
+	  <Content Remove="Assets\ConfirmDialog.xaml" />
+	  <Content Remove="Assets\DeviceCard.xaml" />
+	  <Content Remove="Assets\FeatureTag.xaml" />
+	  <Content Remove="Assets\FlippedSwitch.xaml" />
+	  <Content Remove="Assets\LoginDialog.xaml" />
+	  <Content Remove="Assets\TailscaleIcon.xaml" />
+	  <Content Remove="Assets\AccountCard.xaml.cs" />
+	  <Content Remove="Assets\ConfirmDialog.xaml.cs" />
+	  <Content Remove="Assets\DeviceCard.xaml.cs" />
+	  <Content Remove="Assets\FeatureTag.xaml.cs" />
+	  <Content Remove="Assets\FlippedSwitch.xaml.cs" />
+	  <Content Remove="Assets\LoginDialog.xaml.cs" />
+	  <Content Remove="Assets\TailscaleIcon.xaml.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PRIResource Remove="Dist\**" />
 	</ItemGroup>
 </Project>
