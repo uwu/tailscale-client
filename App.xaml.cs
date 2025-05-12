@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+﻿using System;
 using Microsoft.UI.Xaml;
 using Velopack;
 
@@ -16,15 +16,22 @@ public partial class App : Application
         InitializeComponent();
 
         var mgr = new UpdateManager("https://tsc.xirreal.dev");
-
-        var newVersion = mgr.CheckForUpdates();
-        if (newVersion == null)
+        
+        try
         {
+            var newVersion = mgr.CheckForUpdates();
+            if (newVersion == null)
+            {
+                return;
+            }
+
+            mgr.DownloadUpdates(newVersion);
+            mgr.ApplyUpdatesAndRestart(newVersion);
+        } catch (Exception e)
+        {
+            // TODO: Show failed update bar, possibly a badge on settings?
             return;
         }
-
-        mgr.DownloadUpdates(newVersion);
-        mgr.ApplyUpdatesAndRestart(newVersion);
     }
 
     protected override void OnLaunched(LaunchActivatedEventArgs args)
