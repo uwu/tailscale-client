@@ -87,7 +87,7 @@ jobs:
           AWS_DEFAULT_REGION: auto
           AWS_ENDPOINT_URL: ${{ secrets.S3_ENDPOINT_URL }}
         run: |
-          aws s3 sync ./Releases s3://tsc/
+          aws s3 sync --checksum-algorithm CRC32 ./Releases s3://tsc/
 
       - name: Create a new release
         uses: softprops/action-gh-release@v2
