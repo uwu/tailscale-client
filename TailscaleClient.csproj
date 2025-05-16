@@ -8,6 +8,7 @@
 		<WindowsAppSDKSelfContained>false</WindowsAppSDKSelfContained>
 		<WindowsPackageType>None</WindowsPackageType>
 		<EnableMsixTooling>true</EnableMsixTooling>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
 
 		<RootNamespace>TailscaleClient</RootNamespace>
 		<StartupObject>TailscaleClient.Program</StartupObject>
