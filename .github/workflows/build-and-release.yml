@@ -43,9 +43,7 @@ jobs:
 
       - name: Write version to file, trim trailing newline
         run: |
-          $version = nbgv get-version -v SimpleVersion
-          $version = $version.Trim()
-          Set-Content -Path version.txt -Value $version
+          echo $(nbgv get-version -v SimpleVersion) > ./dist/version.txt
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
@@ -76,11 +74,11 @@ jobs:
 
       - name: Package x64
         run: |
-          vpk [win] pack --packId TailscaleClient --packVersion "$(cat ./version.txt)" --packDir ./x64 --channel win-x64 --framework net8.0-x64-runtime -y
+          vpk [win] pack --packId TailscaleClient --packVersion "$(cat ./version.txt | tr -d '\r\n')" --packDir ./x64 --channel win-x64 --framework net8.0-x64-runtime -y
 
       - name: Package arm64
         run: |
-          vpk [win] pack --packId TailscaleClient --packVersion "$(cat ./version.txt)" --packDir ./arm64 --channel win-arm64 --framework net8.0-arm64-runtime -y
+          vpk [win] pack --packId TailscaleClient --packVersion "$(cat ./version.txt | tr -d '\r\n')" --packDir ./arm64 --channel win-arm64 --framework net8.0-arm64-runtime -y
 
       - name: Upload to R2
         env:
