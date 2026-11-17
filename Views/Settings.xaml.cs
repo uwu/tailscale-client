@@ -20,6 +20,17 @@ public sealed partial class Settings : Page, INotifyPropertyChanged
     public string ExitNode = "";
     public string VersionText = Utils.GetAppVersion();
 
+    private bool _advertiseExitNodeEnabled;
+    public bool AdvertiseExitNodeEnabled
+    {
+        get => _advertiseExitNodeEnabled;
+        set
+        {
+            _advertiseExitNodeEnabled = value;
+            NotifyPropertyChanged();
+        }
+    }
+
     public event PropertyChangedEventHandler PropertyChanged;
     public void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
     {
@@ -78,6 +89,8 @@ public sealed partial class Settings : Page, INotifyPropertyChanged
         TailscaleDnsEnabled = _prefs.CorpDNS;
         SubnetRoutesEnabled = _prefs.RouteAll;
         ExitNode = _prefs.ExitNodeID;
+        var advertisedRoutes = _prefs.AdvertiseRoutes ?? [];
+        AdvertiseExitNodeEnabled = advertisedRoutes.Contains("0.0.0.0/0") && advertisedRoutes.Contains("::/0");
 
         var suggestedNode = new Types.SuggestedExitNode
         {
@@ -157,6 +170,27 @@ public sealed partial class Settings : Page, INotifyPropertyChanged
         }
         _prefs.RouteAll = sender.IsOn;
         API.UpdatePrefs(_prefs);
+    }
+
+    private void UpdatePrefsAdvertiseExitNode(object _sender, RoutedEventArgs e)
+    {
+        var sender = _sender as ToggleSwitch;
+        if (AdvertiseExitNodeEnabled == sender.IsOn)
+        {
+            return;
+        }
+
+        var prefs = API.GetPrefs();
+        var routes = (prefs.AdvertiseRoutes ?? [])
+            .Where(route => route != "0.0.0.0/0" && route != "::/0").ToList();
+        if (sender.IsOn)
+        {
+            routes.Add("0.0.0.0/0");
+            routes.Add("::/0");
+        }
+
+        API.UpdatePrefs(new Types.MaskedPrefs { AdvertiseRoutes = routes });
+        AdvertiseExitNodeEnabled = sender.IsOn;
     }
 
     private void ExitNodeChanged(object sender, SelectionChangedEventArgs e)

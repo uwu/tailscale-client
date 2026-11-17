@@ -572,12 +572,12 @@ public class Types
             }
         }
 
-        private object _advertiseRoutes;
+        private List<string> _advertiseRoutes;
         public bool AdvertiseRoutesSet
         {
             get; set;
         }
-        public object AdvertiseRoutes
+        public List<string> AdvertiseRoutes
         {
             get => _advertiseRoutes;
             set
