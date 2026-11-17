@@ -39,36 +39,43 @@ public sealed partial class Settings : Page, INotifyPropertyChanged
 
     private List<string> _peerIds = [];
     private string _recommendedNode = "";
+    private bool _updatingExitNodeList;
 
     public void UpdateExitNodeList(Types.SuggestedExitNode suggestedPeer, List<Types.PeerInfo> peers)
     {
-        ExitNodeList.Items.Clear();
-
-        ExitNodeList.Items.Add(new ComboBoxItem
+        _updatingExitNodeList = true;
+        try
         {
-            Content = "None",
-            Tag = ""
-        });
+            ExitNodeList.Items.Clear();
 
-        foreach (var device in peers)
-        {
-            var dnsName = device.DNSName;
-            var nickname = dnsName.Split(".")[0];
-            if (nickname == "")
+            ExitNodeList.Items.Add(new ComboBoxItem
             {
-                nickname = device.HostName;
+                Content = "None",
+                Tag = ""
+            });
+
+            foreach (var device in peers)
+            {
+                var dnsName = device.DNSName;
+                var nickname = dnsName.Split(".")[0];
+                if (nickname == "")
+                {
+                    nickname = device.HostName;
+                }
+
+                var item = new ComboBoxItem
+                {
+                    Content = $"{(device.ID == suggestedPeer.ID ? "Recommended: " : "")}{(nickname == device.HostName ? nickname : $"{nickname} ({device.HostName})")}",
+                    Tag = device.ID
+                };
+
+                ExitNodeList.Items.Add(item);
             }
-
-            var item = new ComboBoxItem
-            {
-                Content = $"{(device.ID == suggestedPeer.ID ? "Recommended: " : "")}{(nickname == device.HostName ? nickname : $"{nickname} ({device.HostName})")}",
-                Tag = device.ID
-            };
-
-            ExitNodeList.Items.Add(item);
         }
-
-        CurrentNode = ExitNodeList.Items.Cast<ComboBoxItem>().ToList().FindIndex(x => x.Tag as string == ExitNode);
+        finally
+        {
+            _updatingExitNodeList = false;
+        }
     }
 
     public void UpdateUI()
@@ -97,12 +104,14 @@ public sealed partial class Settings : Page, INotifyPropertyChanged
         peers.Sort((x, y) => x.ID == suggestedNode.ID ? -1 : y.ID == suggestedNode.ID ? 1 : 0);
 
         var peerIds = peers.Select(x => x.ID).ToList();
-        if(!peerIds.All(x => _peerIds.Contains(x)) || (suggestedNode.ID != "UNAVAILABLE" && suggestedNode.ID != _recommendedNode))
+        if (!peerIds.SequenceEqual(_peerIds) || suggestedNode.ID != _recommendedNode)
         {
             _peerIds = peerIds;
             _recommendedNode = suggestedNode.ID;
             UpdateExitNodeList(suggestedNode, peers);
         }
+
+        CurrentNode = ExitNodeList.Items.Cast<ComboBoxItem>().ToList().FindIndex(x => x.Tag as string == ExitNode);
     }
 
     public Settings()
@@ -111,7 +120,7 @@ public sealed partial class Settings : Page, INotifyPropertyChanged
 
         Messaging.Instance.MessageReceived += (sender, e) =>
         {
-            if (e.Kind == Messaging.MessageKind.IPNBusUpdate && e.Key == "Prefs")
+            if (e.Kind == Messaging.MessageKind.IPNBusUpdate && (e.Key == "Prefs" || e.Key == "NetMap"))
             {
                 DispatcherQueue.TryEnqueue(() => { UpdateUI(); });
             }
@@ -163,7 +172,7 @@ public sealed partial class Settings : Page, INotifyPropertyChanged
     {
         var selection = (sender as ComboBox).SelectedItem as ComboBoxItem;
 
-        if (selection == null || (selection?.Tag as string) == ExitNode)
+        if (_updatingExitNodeList || selection == null || (selection?.Tag as string) == ExitNode)
         {
             return;
         }
