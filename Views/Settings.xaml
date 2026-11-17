@@ -91,7 +91,7 @@
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Advertise exit node" VerticalAlignment="Center"/>
-                    <local:FlippedSwitch Grid.Column="1" IsOn="{x:Bind SubnetRoutesEnabled, Mode=TwoWay}" Toggled="UpdatePrefsRoutes"/>
+                    <local:FlippedSwitch Grid.Column="1" IsOn="{x:Bind AdvertiseExitNodeEnabled, Mode=OneWay}" Toggled="UpdatePrefsAdvertiseExitNode"/>
                 </Grid>
                 <TextBlock Margin="0,0,0,4" Foreground="{StaticResource TextFillColorSecondary}" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="WrapWholeWords" Text="Allows other devices to route all their public internet traffic through this node."/>
             </StackPanel>
